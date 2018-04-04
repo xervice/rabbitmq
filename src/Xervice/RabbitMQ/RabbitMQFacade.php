@@ -12,5 +12,15 @@ use Xervice\Core\Facade\AbstractFacade;
  */
 class RabbitMQFacade extends AbstractFacade
 {
-
+    /**
+     * Initiate the exchanges and queues in RabbitMQ
+     *
+     * @api
+     *
+     * @throws \Xervice\Config\Exception\ConfigNotFound
+     */
+    public function init()
+    {
+        $this->getFactory()->createBootstrapper()->boot();
+    }
 }
