@@ -9,7 +9,7 @@ use DataProvider\RabbitMqMessageDataProvider;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class MessageProvider
+class MessageProvider implements MessageProviderInterface
 {
     /**
      * @var \PhpAmqpLib\Channel\AMQPChannel

@@ -7,7 +7,7 @@ namespace Xervice\RabbitMQ\Core;
 use DataProvider\RabbitMqConnectionConfigDataProvider;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
-class ConnectionProvider
+class ConnectionProvider implements ConnectionProviderInterface
 {
     /**
      * @var \PhpAmqpLib\Connection\AMQPStreamConnection

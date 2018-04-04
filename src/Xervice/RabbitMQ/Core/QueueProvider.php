@@ -8,7 +8,7 @@ use DataProvider\RabbitMqQueueBindDataProvider;
 use DataProvider\RabbitMqQueueDataProvider;
 use PhpAmqpLib\Channel\AMQPChannel;
 
-class QueueProvider
+class QueueProvider implements QueueProviderInterface
 {
     /**
      * @var \PhpAmqpLib\Channel\AMQPChannel

@@ -8,9 +8,13 @@ use phpDocumentor\Reflection\Types\This;
 use DataProvider\RabbitMqConnectionConfigDataProvider;
 use Xervice\Core\Factory\AbstractFactory;
 use Xervice\RabbitMQ\Core\ConnectionProvider;
+use Xervice\RabbitMQ\Core\ConnectionProviderInterface;
 use Xervice\RabbitMQ\Core\ExchangeProvider;
+use Xervice\RabbitMQ\Core\ExchangeProviderInterface;
 use Xervice\RabbitMQ\Core\QueueProvider;
+use Xervice\RabbitMQ\Core\QueueProviderInterface;
 use Xervice\RabbitMQ\Message\MessageProvider;
+use Xervice\RabbitMQ\Message\MessageProviderInterface;
 
 /**
  * @method \Xervice\RabbitMQ\RabbitMQConfig getConfig()
@@ -18,15 +22,20 @@ use Xervice\RabbitMQ\Message\MessageProvider;
 class RabbitMQFactory extends AbstractFactory
 {
     /**
-     * @var ConnectionProvider
+     * @var ConnectionProviderInterface
      */
     private $connection;
 
     /**
-     * @return \Xervice\RabbitMQ\Core\ExchangeProvider
+     * @var MessageProviderInterface
+     */
+    private $messageProvider;
+
+    /**
+     * @return \Xervice\RabbitMQ\Core\ExchangeProviderInterface
      * @throws \Xervice\Config\Exception\ConfigNotFound
      */
-    public function createExchangeProvider() : ExchangeProvider
+    public function createExchangeProvider() : ExchangeProviderInterface
     {
         return new ExchangeProvider(
             $this->getConnectionProvider()->getChannel()
@@ -34,10 +43,10 @@ class RabbitMQFactory extends AbstractFactory
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Core\QueueProvider
+     * @return \Xervice\RabbitMQ\Core\QueueProviderInterface
      * @throws \Xervice\Config\Exception\ConfigNotFound
      */
-    public function createQueueProvider() : QueueProvider
+    public function createQueueProvider() : QueueProviderInterface
     {
         return new QueueProvider(
             $this->getConnectionProvider()->getChannel()
@@ -45,10 +54,10 @@ class RabbitMQFactory extends AbstractFactory
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Message\MessageProvider
+     * @return \Xervice\RabbitMQ\Message\MessageProviderInterface
      * @throws \Xervice\Config\Exception\ConfigNotFound
      */
-    public function createMessageProvider() : MessageProvider
+    public function createMessageProvider() : MessageProviderInterface
     {
         return new MessageProvider(
             $this->getConnectionProvider()->getChannel()
@@ -56,10 +65,10 @@ class RabbitMQFactory extends AbstractFactory
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Core\ConnectionProvider
+     * @return \Xervice\RabbitMQ\Core\ConnectionProviderInterface
      * @throws \Xervice\Config\Exception\ConfigNotFound
      */
-    public function createConnectionProvider() : ConnectionProvider
+    public function createConnectionProvider() : ConnectionProviderInterface
     {
         return new ConnectionProvider(
             $this->getConfig()->getConnectionConfig()
@@ -67,10 +76,23 @@ class RabbitMQFactory extends AbstractFactory
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Core\ConnectionProvider
+     * @return \Xervice\RabbitMQ\Message\MessageProviderInterface
      * @throws \Xervice\Config\Exception\ConfigNotFound
      */
-    public function getConnectionProvider() : ConnectionProvider
+    public function getMessageProvider() : MessageProviderInterface
+    {
+        if ($this->messageProvider === null) {
+            $this->messageProvider = $this->createMessageProvider();
+        }
+
+        return $this->messageProvider;
+    }
+
+    /**
+     * @return \Xervice\RabbitMQ\Core\ConnectionProviderInterface
+     * @throws \Xervice\Config\Exception\ConfigNotFound
+     */
+    public function getConnectionProvider() : ConnectionProviderInterface
     {
         if ($this->connection === null) {
             $this->connection = $this->createConnectionProvider();

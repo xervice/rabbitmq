@@ -7,7 +7,7 @@ namespace Xervice\RabbitMQ\Core;
 use DataProvider\RabbitMqExchangeDataProvider;
 use PhpAmqpLib\Channel\AMQPChannel;
 
-class ExchangeProvider
+class ExchangeProvider implements ExchangeProviderInterface
 {
     const TYPE_DIRECT = 'direct';
     const TYPE_FANOUT = 'fanout';

@@ -4,6 +4,7 @@
 namespace Xervice\RabbitMQ;
 
 
+use DataProvider\RabbitMqMessageDataProvider;
 use Xervice\Core\Client\AbstractClient;
 
 /**
@@ -12,5 +13,13 @@ use Xervice\Core\Client\AbstractClient;
  */
 class RabbitMQClient extends AbstractClient
 {
-    // Create here your client classes
+    /**
+     * @param \DataProvider\RabbitMqMessageDataProvider $messageDataProvider
+     *
+     * @throws \Xervice\Config\Exception\ConfigNotFound
+     */
+    public function sendMessage(RabbitMqMessageDataProvider $messageDataProvider)
+    {
+        $this->getFactory()->getMessageProvider()->sendMessage($messageDataProvider);
+    }
 }
