@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<DataProviders
+  xmlns="xervice:dataprovider-01"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="xervice:dataprovider-01 http://static.xervice.online/schema/dataprovider.schema.xsd"
+>
+
+    <DataProvider name="RabbitMqMessageData">
+        <DataElement name="Message" type="string"/>
+        <DataElement name="Properties" type="array"/>
+    </DataProvider>
+
+    <DataProvider name="RabbitMqMessage">
+        <DataElement name="Message" type="RabbitMqMessageData"/>
+        <DataElement name="Exchange" type="RabbitMqExchange"/>
+        <DataElement name="RoutingKey" type="string" default=""/>
+        <DataElement name="Mandatory" type="bool"/>
+        <DataElement name="Immediate" type="bool"/>
+        <DataElement name="Ticket" type="int"/>
+    </DataProvider>
+
+</DataProviders>

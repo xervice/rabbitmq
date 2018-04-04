@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<DataProviders
+  xmlns="xervice:dataprovider-01"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="xervice:dataprovider-01 http://static.xervice.online/schema/dataprovider.schema.xsd"
+>
+
+    <DataProvider name="RabbitMqConnectionConfig">
+        <DataElement name="Host" type="string"/>
+        <DataElement name="Port" type="int"/>
+        <DataElement name="Username" type="string"/>
+        <DataElement name="Password" type="string"/>
+        <DataElement name="VirtualHost" type="string"/>
+        <DataElement name="Insist" type="bool"/>
+        <DataElement name="LoginMethod" type="bool"/>
+        <DataElement name="LoginResponse" type="string"/>
+        <DataElement name="Locale" type="string"/>
+        <DataElement name="ConnectionTimeout" type="float"/>
+        <DataElement name="ReadWriteTimeout" type="float"/>
+        <DataElement name="Context" type="string"/>
+        <DataElement name="KeepAlive" type="bool"/>
+        <DataElement name="Heartbeat" type="int"/>
+    </DataProvider>
+
+</DataProviders>
