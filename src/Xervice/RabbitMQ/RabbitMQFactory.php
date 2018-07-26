@@ -4,8 +4,6 @@
 namespace Xervice\RabbitMQ;
 
 
-use phpDocumentor\Reflection\Types\This;
-use DataProvider\RabbitMqConnectionConfigDataProvider;
 use Xervice\Core\Factory\AbstractFactory;
 use Xervice\RabbitMQ\Core\Bootstrapper;
 use Xervice\RabbitMQ\Core\ConnectionProvider;
@@ -36,7 +34,6 @@ class RabbitMQFactory extends AbstractFactory
 
     /**
      * @return \Xervice\RabbitMQ\Core\BootstrapperInterface
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
     public function createBootstrapper()
     {
@@ -48,7 +45,6 @@ class RabbitMQFactory extends AbstractFactory
 
     /**
      * @return \Xervice\RabbitMQ\Queue\QueueBuilder
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
     public function createQueueBuilder()
     {
@@ -60,7 +56,6 @@ class RabbitMQFactory extends AbstractFactory
 
     /**
      * @return \Xervice\RabbitMQ\Exchange\ExchangeBuilder
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
     public function createExchangeBuilder()
     {
@@ -72,7 +67,6 @@ class RabbitMQFactory extends AbstractFactory
 
     /**
      * @return \Xervice\RabbitMQ\Core\ExchangeProviderInterface
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
     public function createExchangeProvider() : ExchangeProviderInterface
     {
@@ -83,7 +77,6 @@ class RabbitMQFactory extends AbstractFactory
 
     /**
      * @return \Xervice\RabbitMQ\Core\QueueProviderInterface
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
     public function createQueueProvider() : QueueProviderInterface
     {
@@ -94,7 +87,6 @@ class RabbitMQFactory extends AbstractFactory
 
     /**
      * @return \Xervice\RabbitMQ\Message\MessageProviderInterface
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
     public function createMessageProvider() : MessageProviderInterface
     {
@@ -105,7 +97,6 @@ class RabbitMQFactory extends AbstractFactory
 
     /**
      * @return \Xervice\RabbitMQ\Core\ConnectionProviderInterface
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
     public function createConnectionProvider() : ConnectionProviderInterface
     {
@@ -116,7 +107,6 @@ class RabbitMQFactory extends AbstractFactory
 
     /**
      * @return \Xervice\RabbitMQ\Message\MessageProviderInterface
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
     public function getMessageProvider() : MessageProviderInterface
     {
@@ -129,7 +119,6 @@ class RabbitMQFactory extends AbstractFactory
 
     /**
      * @return \Xervice\RabbitMQ\Core\ConnectionProviderInterface
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
     public function getConnectionProvider() : ConnectionProviderInterface
     {

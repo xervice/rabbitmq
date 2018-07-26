@@ -18,7 +18,7 @@
         <DataElement name="Locale" type="string"/>
         <DataElement name="ConnectionTimeout" type="float"/>
         <DataElement name="ReadWriteTimeout" type="float"/>
-        <DataElement name="Context" type="string"/>
+        <DataElement name="Context" type="string" allownull="true"/>
         <DataElement name="KeepAlive" type="bool"/>
         <DataElement name="Heartbeat" type="int"/>
     </DataProvider>

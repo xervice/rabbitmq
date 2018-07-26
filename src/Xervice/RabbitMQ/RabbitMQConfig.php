@@ -40,7 +40,7 @@ class RabbitMQConfig extends AbstractConfig
         $connectionConfig->setLocale($this->get(self::CONNECTION_LOCALE, 'de_DE'));
         $connectionConfig->setConnectionTimeout($this->get(self::CONNECTION_CONNECTION_TIMEOUT, 3.0));
         $connectionConfig->setReadWriteTimeout($this->get(self::CONNECTION_READWRITE_TIMEOUT, 3.0));
-        $connectionConfig->setContext($this->get(self::CONNECTION_CONTEXT, null));
+        $connectionConfig->setContext($this->get(self::CONNECTION_CONTEXT));
         $connectionConfig->setKeepAlive($this->get(self::CONNECTION_KEEPALIVE, false));
         $connectionConfig->setHeartbeat($this->get(self::CONNECTION_HEARTBEAT, 0));
 
