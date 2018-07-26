@@ -13,12 +13,12 @@
         <DataElement name="Password" type="string"/>
         <DataElement name="VirtualHost" type="string"/>
         <DataElement name="Insist" type="bool"/>
-        <DataElement name="LoginMethod" type="bool"/>
+        <DataElement name="LoginMethod" default="AMQPLAIN" type="string"/>
         <DataElement name="LoginResponse" type="string"/>
         <DataElement name="Locale" type="string"/>
         <DataElement name="ConnectionTimeout" type="float"/>
         <DataElement name="ReadWriteTimeout" type="float"/>
-        <DataElement name="Context" type="string" allownull="true"/>
+        <DataElement name="Context" type="string" default="null" allownull="true"/>
         <DataElement name="KeepAlive" type="bool"/>
         <DataElement name="Heartbeat" type="int"/>
     </DataProvider>

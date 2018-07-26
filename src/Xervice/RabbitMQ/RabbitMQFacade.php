@@ -23,4 +23,9 @@ class RabbitMQFacade extends AbstractFacade
     {
         $this->getFactory()->createBootstrapper()->boot();
     }
+
+    public function close(): void
+    {
+        $this->getFactory()->getConnectionProvider()->getConnection()->close();
+    }
 }

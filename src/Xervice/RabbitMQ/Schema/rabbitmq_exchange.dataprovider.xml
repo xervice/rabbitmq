@@ -9,13 +9,13 @@
     <DataProvider name="RabbitMqExchange">
         <DataElement name="Name" type="string"/>
         <DataElement name="Type" type="string"/>
-        <DataElement name="Passive" type="bool"/>
-        <DataElement name="Durable" type="bool"/>
-        <DataElement name="AutoDelete" type="bool"/>
-        <DataElement name="Internal" type="bool"/>
-        <DataElement name="NoWait" type="bool"/>
-        <DataElement name="Argument" type="array"/>
-        <DataElement name="Ticket" type="int"/>
+        <DataElement name="Passive" default="false" type="bool"/>
+        <DataElement name="Durable" default="false" type="bool"/>
+        <DataElement name="AutoDelete" default="true" type="bool"/>
+        <DataElement name="Internal" default="false" type="bool"/>
+        <DataElement name="NoWait" default="false" type="bool"/>
+        <DataElement name="Argument" default="[]" type="array"/>
+        <DataElement name="Ticket" allownull="true" type="int"/>
     </DataProvider>
 
 </DataProviders>

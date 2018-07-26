@@ -1,10 +1,11 @@
 <?php
 namespace XerviceTest\RabbitMQ;
 
-use Xervice\Core\Facade\FacadeInterface;
 use Xervice\Core\Locator\Dynamic\DynamicLocator;
 use Xervice\Core\Locator\Locator;
 use Xervice\DataProvider\DataProviderFacade;
+
+require_once __DIR__ . '/TestInjector/RabbitMQDependencyProvider.php';
 
 /**
  * @method \Xervice\RabbitMQ\RabbitMQFacade getFacade()
@@ -20,18 +21,13 @@ class IntegrationTest extends \Codeception\Test\Unit
     
     protected function _before()
     {
-//        $this->getDataProviderFacade()->generateDataProvider();
-        $this->getFacade()->init();
-    }
-
-    protected function _after()
-    {
+        $this->getDataProviderFacade()->generateDataProvider();
     }
 
     // tests
-    public function testSomeFeature()
+    public function testRabbitMqConnection()
     {
-
+        $this->getFacade()->init();
     }
 
     /**

@@ -11,6 +11,8 @@ build:
   environment:
     php: 7.1
 
+    rabbitmq: true
+
     variables:
       APPLICATION_ENV: scrutinizer
 
