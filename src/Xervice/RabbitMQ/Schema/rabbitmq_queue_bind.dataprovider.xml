@@ -15,4 +15,8 @@
         <DataElement name="Ticket" type="int"/>
     </DataProvider>
 
+    <DataProvider name="RabbitMqQueueBindCollection">
+        <DataElement name="Bindings" singleton="Bind" type="RabbitMqQueueBind[]"/>
+    </DataProvider>
+
 </DataProviders>

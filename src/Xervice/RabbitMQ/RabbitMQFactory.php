@@ -156,4 +156,12 @@ class RabbitMQFactory extends AbstractFactory
         return $this->getDependency(RabbitMQDependencyProvider::RABBITMQ_QUEUES);
     }
 
+    /**
+     * @return \Xervice\RabbitMQ\Worker\Listener\ListenerCollection
+     */
+    public function getListenerCollection()
+    {
+        return $this->getDependency(RabbitMQDependencyProvider::RABBITMQ_LISTENER);
+    }
+
 }

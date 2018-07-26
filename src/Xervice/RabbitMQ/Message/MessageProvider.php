@@ -32,7 +32,7 @@ class MessageProvider implements MessageProviderInterface
     public function sendMessage(RabbitMqMessageDataProvider $messageDataProvider)
     {
         $this->channel->basic_publish(
-            $this->createMessage($messageDataProvider->getMessage()),
+            $this->createMessage($messageDataProvider),
             $messageDataProvider->getExchange()->getName(),
             $messageDataProvider->getRoutingKey(),
             $messageDataProvider->getImmediate(),

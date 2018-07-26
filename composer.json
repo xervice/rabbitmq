@@ -13,10 +13,8 @@
   },
   "require": {
     "php": ">=7.1.0",
-    "xervice/config": "dev-master",
-    "xervice/core": "dev-master",
-    "xervice/console": "dev-master",
-    "xervice/data-provider": "dev-master",
+    "xervice/data-provider": "^1.3.0",
+    "xervice/kernel": "^1.3.0",
     "php-amqplib/php-amqplib": "^2.7.2"
   },
   "autoload": {

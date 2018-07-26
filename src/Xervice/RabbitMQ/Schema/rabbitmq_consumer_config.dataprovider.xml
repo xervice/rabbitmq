@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<DataProviders
+  xmlns="xervice:dataprovider-01"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="xervice:dataprovider-01 http://static.xervice.online/schema/dataprovider.schema.xsd"
+>
+
+    <DataProvider name="RabbitMqConsumerConfig">
+        <DataElement name="Tag" type="string"/>
+        <DataElement name="NoLocal" type="bool"/>
+        <DataElement name="NoAck" type="bool"/>
+        <DataElement name="Exclusive" type="bool"/>
+        <DataElement name="NoWait" type="bool"/>
+        <DataElement name="Ticket" type="string" allownull="true"/>
+        <DataElement name="Arguments" type="array"/>
+    </DataProvider>
+
+</DataProviders>

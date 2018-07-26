@@ -6,18 +6,18 @@
   xsi:schemaLocation="xervice:dataprovider-01 http://static.xervice.online/schema/dataprovider.schema.xsd"
 >
 
-    <DataProvider name="RabbitMqMessageData">
+    <DataProvider name="RabbitMqMessage">
+        <DataElement name="Exchange" type="RabbitMqExchange"/>
+        <DataElement name="Queue" type="RabbitMqQueue"/>
         <DataElement name="Message" type="string"/>
         <DataElement name="Properties" type="array"/>
-    </DataProvider>
-
-    <DataProvider name="RabbitMqMessage">
-        <DataElement name="Message" type="RabbitMqMessageData"/>
-        <DataElement name="Exchange" type="RabbitMqExchange"/>
         <DataElement name="RoutingKey" type="string"/>
         <DataElement name="Mandatory" type="bool"/>
         <DataElement name="Immediate" type="bool"/>
         <DataElement name="Ticket" type="int"/>
     </DataProvider>
 
+    <DataProvider name="RabbitMqMessageCollection">
+        <DataElement name="Messages" singleton="Message" type="RabbitMqMessage[]"/>
+    </DataProvider>
 </DataProviders>

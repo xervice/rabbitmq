@@ -8,6 +8,7 @@ use Xervice\Core\Dependency\DependencyProviderInterface;
 use Xervice\Core\Dependency\Provider\AbstractProvider;
 use Xervice\RabbitMQ\Exchange\ExchangeCollection;
 use Xervice\RabbitMQ\Queue\QueueCollection;
+use Xervice\RabbitMQ\Worker\Listener\ListenerCollection;
 
 class RabbitMQDependencyProvider extends AbstractProvider
 {
@@ -15,10 +16,21 @@ class RabbitMQDependencyProvider extends AbstractProvider
 
     const RABBITMQ_QUEUES = 'rabbitmq.queues';
 
+    const RABBITMQ_LISTENER = 'rabbitmq.listener';
+
     public function handleDependencies(DependencyProviderInterface $container)
     {
         $this->createExchangeCollection($container);
         $this->createQueueCollection($container);
+        $this->createListenerCollection($container);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getListener()
+    {
+        return [];
     }
 
     /**
@@ -57,6 +69,18 @@ class RabbitMQDependencyProvider extends AbstractProvider
         $container[self::RABBITMQ_QUEUES] = function (DependencyProviderInterface $container) {
             return new QueueCollection(
                 $this->getQueues()
+            );
+        };
+    }
+
+    /**
+     * @param \Xervice\Core\Dependency\DependencyProviderInterface $container
+     */
+    private function createListenerCollection(DependencyProviderInterface $container): void
+    {
+        $container[self::RABBITMQ_LISTENER] = function (DependencyProviderInterface $container) {
+            return new ListenerCollection(
+                $this->getListener()
             );
         };
     }
