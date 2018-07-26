@@ -18,7 +18,8 @@ class TestExchange implements ExchangeInterface
         $testExchange = new RabbitMqExchangeDataProvider();
         $testExchange
             ->setName('UnitTest')
-            ->setType('direct');
+            ->setType('direct')
+            ->setAutoDelete(false);
 
         $exchangeProvider->declare($testExchange);
     }

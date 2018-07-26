@@ -5,16 +5,21 @@ namespace Xervice\RabbitMQ\Worker\Listener;
 
 
 use DataProvider\RabbitMqMessageCollectionDataProvider;
+use PhpAmqpLib\Channel\AMQPChannel;
 
 interface ListenerInterface
 {
     /**
      * @param \DataProvider\RabbitMqMessageCollectionDataProvider $collectionDataProvider
      *
-     * @return bool
-     * @throws \Xervice\RabbitMQ\Worker\Listener\ListenerException
+     * @param \PhpAmqpLib\Channel\AMQPChannel $channel
+     *
+     * @return void
      */
-    public function handleMessage(RabbitMqMessageCollectionDataProvider $collectionDataProvider);
+    public function handleMessage(
+        RabbitMqMessageCollectionDataProvider $collectionDataProvider,
+        AMQPChannel $channel
+    ): void;
 
     /**
      * @return string

@@ -17,6 +17,7 @@ class TestQueue implements QueueInterface
         $queue = new RabbitMqQueueDataProvider();
         $queue
             ->setName('TestQueue')
+            ->setAutoDelete(false)
             ->setArgument([]);
 
         $testExchange = new RabbitMqExchangeDataProvider();

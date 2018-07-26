@@ -8,13 +8,13 @@
 
     <DataProvider name="RabbitMqMessage">
         <DataElement name="Exchange" type="RabbitMqExchange"/>
-        <DataElement name="Queue" type="RabbitMqQueue"/>
         <DataElement name="Message" type="string"/>
-        <DataElement name="Properties" type="array"/>
-        <DataElement name="RoutingKey" type="string"/>
-        <DataElement name="Mandatory" type="bool"/>
-        <DataElement name="Immediate" type="bool"/>
-        <DataElement name="Ticket" type="int"/>
+        <DataElement name="Properties" default="[]" type="array"/>
+        <DataElement name="DeliveryInfo" default="[]" type="array"/>
+        <DataElement name="RoutingKey" default="''" type="string"/>
+        <DataElement name="Mandatory" default="false" type="bool"/>
+        <DataElement name="Immediate" default="false" type="bool"/>
+        <DataElement name="Ticket" allownull="true" type="int"/>
     </DataProvider>
 
     <DataProvider name="RabbitMqMessageCollection">

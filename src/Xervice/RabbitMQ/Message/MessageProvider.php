@@ -4,6 +4,7 @@
 namespace Xervice\RabbitMQ\Message;
 
 
+use DataProvider\RabbitMqMessageCollectionDataProvider;
 use DataProvider\RabbitMqMessageDataDataProvider;
 use DataProvider\RabbitMqMessageDataProvider;
 use PhpAmqpLib\Channel\AMQPChannel;
@@ -29,7 +30,7 @@ class MessageProvider implements MessageProviderInterface
     /**
      * @param \DataProvider\RabbitMqMessageDataProvider $messageDataProvider
      */
-    public function sendMessage(RabbitMqMessageDataProvider $messageDataProvider)
+    public function sendMessage(RabbitMqMessageDataProvider $messageDataProvider): void
     {
         $this->channel->basic_publish(
             $this->createMessage($messageDataProvider),
@@ -42,11 +43,21 @@ class MessageProvider implements MessageProviderInterface
     }
 
     /**
+     * @param \DataProvider\RabbitMqMessageCollectionDataProvider $messageCollectionDataProvider
+     */
+    public function sendBulk(RabbitMqMessageCollectionDataProvider $messageCollectionDataProvider): void
+    {
+        foreach ($messageCollectionDataProvider->getMessages() as $message) {
+            $this->sendMessage($message);
+        }
+    }
+
+    /**
      * @param \DataProvider\RabbitMqMessageDataProvider $messageDataProvider
      *
      * @return \PhpAmqpLib\Message\AMQPMessage
      */
-    private function createMessage(RabbitMqMessageDataDataProvider $messageDataDataProvider)
+    private function createMessage(RabbitMqMessageDataProvider $messageDataDataProvider)
     {
         return new AMQPMessage(
             $messageDataDataProvider->getMessage(),

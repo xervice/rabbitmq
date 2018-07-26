@@ -6,6 +6,7 @@ namespace App\RabbitMQ;
 
 use Xervice\RabbitMQ\RabbitMQDependencyProvider as XerviceRabbitMQDependencyProvider;
 use XerviceTest\RabbitMQ\Exchange\TestExchange;
+use XerviceTest\RabbitMQ\Listener\TestListener;
 use XerviceTest\RabbitMQ\Queue\TestQueue;
 
 class RabbitMQDependencyProvider extends XerviceRabbitMQDependencyProvider
@@ -15,7 +16,9 @@ class RabbitMQDependencyProvider extends XerviceRabbitMQDependencyProvider
      */
     protected function getListener()
     {
-        return [];
+        return [
+            new TestListener()
+        ];
     }
 
     /**

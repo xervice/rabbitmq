@@ -37,7 +37,7 @@ class ExchangeProvider implements ExchangeProviderInterface
      * @param bool $internal
      * @param bool $nowait
      */
-    public function declare(RabbitMqExchangeDataProvider $exchangeDataProvider)
+    public function declare(RabbitMqExchangeDataProvider $exchangeDataProvider): void
     {
         $this->channel->exchange_declare(
             $exchangeDataProvider->getName(),
@@ -49,6 +49,16 @@ class ExchangeProvider implements ExchangeProviderInterface
             $exchangeDataProvider->getNoWait(),
             $exchangeDataProvider->getArgument(),
             $exchangeDataProvider->getTicket()
+        );
+    }
+
+    /**
+     * @param \DataProvider\RabbitMqExchangeDataProvider $exchangeDataProvider
+     */
+    public function delete(RabbitMqExchangeDataProvider $exchangeDataProvider): void
+    {
+        $this->channel->exchange_delete(
+            $exchangeDataProvider->getName()
         );
     }
 

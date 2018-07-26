@@ -12,7 +12,7 @@ use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
 use Xervice\RabbitMQ\Worker\Listener\ListenerInterface;
 
-class Consumer
+class Consumer implements ConsumerInterface
 {
     /**
      * @var \PhpAmqpLib\Channel\AMQPChannel
@@ -45,9 +45,19 @@ class Consumer
         $this->messageCollection = new RabbitMqMessageCollectionDataProvider();
     }
 
-    public function consumeQueries(ListenerInterface $listener)
+    /**
+     * @param \Xervice\RabbitMQ\Worker\Listener\ListenerInterface $listener
+     *
+     * @return void
+     */
+    public function consumeQueries(ListenerInterface $listener): void
     {
-        $this->channel->basic_qos(null, $listener->getChunkSize(),  null);
+        $this->channel->basic_qos(
+            null,
+            $listener->getChunkSize(),
+            null
+        );
+
         $this->channel->basic_consume(
             $listener->getQueueName(),
             $this->config->getTag(),
@@ -55,24 +65,40 @@ class Consumer
             $this->config->getNoAck(),
             $this->config->getExclusive(),
             $this->config->getNoWait(),
-            [$this, 'collectMessages'],
+            [
+                $this,
+                'collectMessages'
+            ],
             $this->config->getTicket(),
             $this->config->getArguments()
         );
 
-        while (count($this->channel->callbacks)) {
-            $this->channel->wait();
+        try {
+            $finished = false;
+            while (\count($this->channel->callbacks) && !$finished) {
+                $this->channel->wait(
+                    null,
+                    false,
+                    1
+                );
+            }
         }
+        catch (\Exception $e) {
+            $finished = true;
+        }
+
+        $listener->handleMessage($this->messageCollection, $this->channel);
     }
 
     /**
      * @param \PhpAmqpLib\Message\AMQPMessage $message
      */
-    public function collectMessages(AMQPMessage $message)
+    public function collectMessages(AMQPMessage $message): void
     {
         $rabbitMessage = new RabbitMqMessageDataProvider();
         $rabbitMessage->setMessage($message->getBody());
         $rabbitMessage->setProperties($message->get_properties());
+        $rabbitMessage->setDeliveryInfo($message->delivery_info);
 
         $queue = new RabbitMqQueueDataProvider();
         $queue->setName($message->delivery_info['exchange']);

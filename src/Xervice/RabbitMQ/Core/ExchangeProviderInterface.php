@@ -15,5 +15,10 @@ interface ExchangeProviderInterface
      * @param bool $internal
      * @param bool $nowait
      */
-    public function declare(RabbitMqExchangeDataProvider $exchangeDataProvider);
+    public function declare(RabbitMqExchangeDataProvider $exchangeDataProvider): void;
+
+    /**
+     * @param \DataProvider\RabbitMqExchangeDataProvider $exchangeDataProvider
+     */
+    public function delete(RabbitMqExchangeDataProvider $exchangeDataProvider): void;
 }

@@ -9,7 +9,7 @@
     <DataProvider name="RabbitMqQueueBind">
         <DataElement name="Exchange" type="RabbitMqExchange"/>
         <DataElement name="Queue" type="RabbitMqQueue"/>
-        <DataElement name="RoutingKey" default="" type="string"/>
+        <DataElement name="RoutingKey" default="''" type="string"/>
         <DataElement name="NoWait" default="false" type="bool"/>
         <DataElement name="Argument" default="[]" type="array"/>
         <DataElement name="Ticket" allownull="true" type="int"/>

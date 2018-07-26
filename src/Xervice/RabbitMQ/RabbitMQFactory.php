@@ -16,6 +16,11 @@ use Xervice\RabbitMQ\Exchange\ExchangeBuilder;
 use Xervice\RabbitMQ\Message\MessageProvider;
 use Xervice\RabbitMQ\Message\MessageProviderInterface;
 use Xervice\RabbitMQ\Queue\QueueBuilder;
+use Xervice\RabbitMQ\Worker\Consumer\Consumer;
+use Xervice\RabbitMQ\Worker\Consumer\ConsumerInterface;
+use Xervice\RabbitMQ\Worker\Listener\ListenerInterface;
+use Xervice\RabbitMQ\Worker\Worker;
+use Xervice\RabbitMQ\Worker\WorkerInterface;
 
 /**
  * @method \Xervice\RabbitMQ\RabbitMQConfig getConfig()
@@ -40,6 +45,28 @@ class RabbitMQFactory extends AbstractFactory
         return new Bootstrapper(
             $this->createExchangeBuilder(),
             $this->createQueueBuilder()
+        );
+    }
+
+    /**
+     * @return \Xervice\RabbitMQ\Worker\WorkerInterface
+     */
+    public function createWorker(): WorkerInterface
+    {
+        return new Worker(
+            $this->getListenerCollection(),
+            $this->createConsumer()
+        );
+    }
+
+    /**
+     * @return \Xervice\RabbitMQ\Worker\Consumer\ConsumerInterface
+     */
+    public function createConsumer(): ConsumerInterface
+    {
+        return new Consumer(
+            $this->getConnectionProvider()->getChannel(),
+            $this->getConfig()->getConsumerConfig()
         );
     }
 

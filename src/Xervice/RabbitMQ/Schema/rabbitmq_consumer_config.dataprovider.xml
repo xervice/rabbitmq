@@ -7,13 +7,13 @@
 >
 
     <DataProvider name="RabbitMqConsumerConfig">
-        <DataElement name="Tag" type="string"/>
-        <DataElement name="NoLocal" type="bool"/>
-        <DataElement name="NoAck" type="bool"/>
-        <DataElement name="Exclusive" type="bool"/>
-        <DataElement name="NoWait" type="bool"/>
+        <DataElement name="Tag" default="''" type="string"/>
+        <DataElement name="NoLocal" default="false" type="bool"/>
+        <DataElement name="NoAck" default="false" type="bool"/>
+        <DataElement name="Exclusive" default="false" type="bool"/>
+        <DataElement name="NoWait" default="false" type="bool"/>
         <DataElement name="Ticket" type="string" allownull="true"/>
-        <DataElement name="Arguments" type="array"/>
+        <DataElement name="Arguments" default="[]" type="array"/>
     </DataProvider>
 
 </DataProviders>

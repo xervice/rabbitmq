@@ -31,7 +31,7 @@ class ListenerCollection implements \Iterator, \Countable
     /**
      * @param \Xervice\RabbitMQ\Worker\Listener\ListenerInterface $validator
      */
-    public function add(ListenerInterface $validator)
+    public function add(ListenerInterface $validator): void
     {
         $this->collection[] = $validator;
     }
@@ -39,12 +39,12 @@ class ListenerCollection implements \Iterator, \Countable
     /**
      * @return \Xervice\RabbitMQ\Worker\Listener\ListenerInterface
      */
-    public function current()
+    public function current(): ListenerInterface
     {
         return $this->collection[$this->position];
     }
 
-    public function next()
+    public function next(): void
     {
         $this->position++;
     }
@@ -52,7 +52,7 @@ class ListenerCollection implements \Iterator, \Countable
     /**
      * @return int
      */
-    public function key()
+    public function key(): int
     {
         return $this->position;
     }
@@ -60,12 +60,12 @@ class ListenerCollection implements \Iterator, \Countable
     /**
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->collection[$this->position]);
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->position = 0;
     }
@@ -73,7 +73,7 @@ class ListenerCollection implements \Iterator, \Countable
     /**
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return \count($this->collection);
     }

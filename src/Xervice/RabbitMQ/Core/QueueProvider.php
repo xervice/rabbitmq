@@ -28,7 +28,7 @@ class QueueProvider implements QueueProviderInterface
     /**
      * @param \DataProvider\RabbitMqQueueDataProvider $queueDataProvider
      */
-    public function declare(RabbitMqQueueDataProvider $queueDataProvider)
+    public function declare(RabbitMqQueueDataProvider $queueDataProvider): void
     {
         $this->channel->queue_declare(
             $queueDataProvider->getName(),
@@ -46,7 +46,7 @@ class QueueProvider implements QueueProviderInterface
     /**
      * @param \DataProvider\RabbitMqQueueBindDataProvider $bindDataProvider
      */
-    public function bind(RabbitMqQueueBindDataProvider $bindDataProvider)
+    public function bind(RabbitMqQueueBindDataProvider $bindDataProvider): void
     {
         $this->channel->queue_bind(
             $bindDataProvider->getQueue()->getName(),
@@ -55,6 +55,16 @@ class QueueProvider implements QueueProviderInterface
             $bindDataProvider->getNoWait(),
             $bindDataProvider->getArgument(),
             $bindDataProvider->getTicket()
+        );
+    }
+
+    /**
+     * @param \DataProvider\RabbitMqQueueDataProvider $queueDataProvider
+     */
+    public function delete(RabbitMqQueueDataProvider $queueDataProvider): void
+    {
+        $this->channel->queue_delete(
+            $queueDataProvider->getName()
         );
     }
 
