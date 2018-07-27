@@ -10,8 +10,6 @@ $config[DataProviderConfig::DATA_PROVIDER_PATHS] = [
     dirname(__DIR__) . '/vendor/'
 ];
 
-
-
 if (class_exists(RabbitMQConfig::class)) {
     $config[RabbitMQConfig::CONNECTION_HOST] = '127.0.0.1';
     $config[RabbitMQConfig::CONNECTION_PORT] = 5672;

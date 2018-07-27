@@ -29,7 +29,7 @@ class RabbitMQDependencyProvider extends AbstractProvider
     }
 
     /**
-     * @return array
+     * @return \Xervice\RabbitMQ\Worker\Listener\ListenerInterface[]
      */
     protected function getListener()
     {
