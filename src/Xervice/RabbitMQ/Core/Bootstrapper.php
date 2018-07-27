@@ -33,7 +33,7 @@ class Bootstrapper implements BootstrapperInterface
         $this->queueBuilder = $queueBuilder;
     }
 
-    public function boot()
+    public function boot(): void
     {
         $this->exchangeBuilder->buildExchange();
         $this->queueBuilder->buildQueues();

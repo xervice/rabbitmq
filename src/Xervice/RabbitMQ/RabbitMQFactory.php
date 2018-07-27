@@ -6,6 +6,7 @@ namespace Xervice\RabbitMQ;
 
 use Xervice\Core\Factory\AbstractFactory;
 use Xervice\RabbitMQ\Core\Bootstrapper;
+use Xervice\RabbitMQ\Core\BootstrapperInterface;
 use Xervice\RabbitMQ\Core\ConnectionProvider;
 use Xervice\RabbitMQ\Core\ConnectionProviderInterface;
 use Xervice\RabbitMQ\Core\ExchangeProvider;
@@ -13,11 +14,16 @@ use Xervice\RabbitMQ\Core\ExchangeProviderInterface;
 use Xervice\RabbitMQ\Core\QueueProvider;
 use Xervice\RabbitMQ\Core\QueueProviderInterface;
 use Xervice\RabbitMQ\Exchange\ExchangeBuilder;
+use Xervice\RabbitMQ\Exchange\ExchangeBuilderInterface;
+use Xervice\RabbitMQ\Exchange\ExchangeCollection;
 use Xervice\RabbitMQ\Message\MessageProvider;
 use Xervice\RabbitMQ\Message\MessageProviderInterface;
 use Xervice\RabbitMQ\Queue\QueueBuilder;
+use Xervice\RabbitMQ\Queue\QueueBuilderInterface;
+use Xervice\RabbitMQ\Queue\QueueCollection;
 use Xervice\RabbitMQ\Worker\Consumer\Consumer;
 use Xervice\RabbitMQ\Worker\Consumer\ConsumerInterface;
+use Xervice\RabbitMQ\Worker\Listener\ListenerCollection;
 use Xervice\RabbitMQ\Worker\Listener\ListenerInterface;
 use Xervice\RabbitMQ\Worker\Worker;
 use Xervice\RabbitMQ\Worker\WorkerInterface;
@@ -40,7 +46,7 @@ class RabbitMQFactory extends AbstractFactory
     /**
      * @return \Xervice\RabbitMQ\Core\BootstrapperInterface
      */
-    public function createBootstrapper()
+    public function createBootstrapper(): BootstrapperInterface
     {
         return new Bootstrapper(
             $this->createExchangeBuilder(),
@@ -73,7 +79,7 @@ class RabbitMQFactory extends AbstractFactory
     /**
      * @return \Xervice\RabbitMQ\Queue\QueueBuilder
      */
-    public function createQueueBuilder()
+    public function createQueueBuilder(): QueueBuilderInterface
     {
         return new QueueBuilder(
             $this->createQueueProvider(),
@@ -84,7 +90,7 @@ class RabbitMQFactory extends AbstractFactory
     /**
      * @return \Xervice\RabbitMQ\Exchange\ExchangeBuilder
      */
-    public function createExchangeBuilder()
+    public function createExchangeBuilder(): ExchangeBuilderInterface
     {
         return new ExchangeBuilder(
             $this->createExchangeProvider(),
@@ -159,7 +165,7 @@ class RabbitMQFactory extends AbstractFactory
     /**
      * @return \Xervice\RabbitMQ\Exchange\ExchangeCollection
      */
-    public function getExchangeCollection()
+    public function getExchangeCollection(): ExchangeCollection
     {
         return $this->getDependency(RabbitMQDependencyProvider::RABBITMQ_EXCHANGES);
     }
@@ -167,7 +173,7 @@ class RabbitMQFactory extends AbstractFactory
     /**
      * @return \Xervice\RabbitMQ\Queue\QueueCollection
      */
-    public function getQueueCollection()
+    public function getQueueCollection(): QueueCollection
     {
         return $this->getDependency(RabbitMQDependencyProvider::RABBITMQ_QUEUES);
     }
@@ -175,7 +181,7 @@ class RabbitMQFactory extends AbstractFactory
     /**
      * @return \Xervice\RabbitMQ\Worker\Listener\ListenerCollection
      */
-    public function getListenerCollection()
+    public function getListenerCollection(): ListenerCollection
     {
         return $this->getDependency(RabbitMQDependencyProvider::RABBITMQ_LISTENER);
     }

@@ -9,9 +9,9 @@ use PhpAmqpLib\Channel\AMQPChannel;
 
 class ExchangeProvider implements ExchangeProviderInterface
 {
-    const TYPE_DIRECT = 'direct';
-    const TYPE_FANOUT = 'fanout';
-    const TYPE_TOPIC = 'topic';
+    public const TYPE_DIRECT = 'direct';
+    public const TYPE_FANOUT = 'fanout';
+    public const TYPE_TOPIC = 'topic';
 
     /**
      * @var \PhpAmqpLib\Channel\AMQPChannel
@@ -29,13 +29,7 @@ class ExchangeProvider implements ExchangeProviderInterface
     }
 
     /**
-     * @param string $name
-     * @param string $type
-     * @param bool $passive
-     * @param bool $durable
-     * @param bool $auto_delete
-     * @param bool $internal
-     * @param bool $nowait
+     * @param \DataProvider\RabbitMqExchangeDataProvider $exchangeDataProvider
      */
     public function declare(RabbitMqExchangeDataProvider $exchangeDataProvider): void
     {

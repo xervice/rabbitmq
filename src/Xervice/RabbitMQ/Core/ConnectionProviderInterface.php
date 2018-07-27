@@ -2,6 +2,7 @@
 
 namespace Xervice\RabbitMQ\Core;
 
+use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 interface ConnectionProviderInterface
@@ -14,5 +15,5 @@ interface ConnectionProviderInterface
     /**
      * @return \PhpAmqpLib\Channel\AMQPChannel
      */
-    public function getChannel();
+    public function getChannel(): AMQPChannel;
 }

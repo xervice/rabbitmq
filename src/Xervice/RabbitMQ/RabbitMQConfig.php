@@ -71,7 +71,7 @@ class RabbitMQConfig extends AbstractConfig
             ->setNoAck($this->get(self::CONSUMER_NOACK, false))
             ->setExclusive($this->get(self::CONSUMER_EXCLUSIVE, false))
             ->setNoWait($this->get(self::CONSUMER_NOWAIT, false))
-            ->setTicket($this->get(self::CONSUMER_TICKET, null))
+            ->setTicket($this->get(self::CONSUMER_TICKET))
             ->setArguments($this->get(self::CONSUMER_ARGUMENTS, []));
 
         return $consumerConfig;

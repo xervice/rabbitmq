@@ -33,9 +33,6 @@ class Worker implements WorkerInterface
         $this->consumer = $consumer;
     }
 
-    /**
-     * @throws \Xervice\RabbitMQ\Worker\Listener\ListenerException
-     */
     public function runWorker(): void
     {
         foreach ($this->listenerCollection as $listener) {

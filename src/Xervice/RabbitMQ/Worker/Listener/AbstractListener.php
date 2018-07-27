@@ -11,7 +11,7 @@ use Xervice\Core\Locator\Locator;
 
 abstract class AbstractListener extends AbstractWithLocator implements ListenerInterface
 {
-    const DEFAULT_CHUNKSIZE = 100;
+    protected const DEFAULT_CHUNKSIZE = 100;
 
     /**
      * @return int

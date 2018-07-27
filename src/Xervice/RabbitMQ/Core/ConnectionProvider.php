@@ -5,6 +5,7 @@ namespace Xervice\RabbitMQ\Core;
 
 
 use DataProvider\RabbitMqConnectionConfigDataProvider;
+use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class ConnectionProvider implements ConnectionProviderInterface
@@ -15,7 +16,9 @@ class ConnectionProvider implements ConnectionProviderInterface
     private $connection;
 
     /**
-     * Connection constructor.
+     * ConnectionProvider constructor.
+     *
+     * @param \DataProvider\RabbitMqConnectionConfigDataProvider $configDataProvider
      */
     public function __construct(RabbitMqConnectionConfigDataProvider $configDataProvider)
     {
@@ -48,7 +51,7 @@ class ConnectionProvider implements ConnectionProviderInterface
     /**
      * @return \PhpAmqpLib\Channel\AMQPChannel
      */
-    public function getChannel()
+    public function getChannel(): AMQPChannel
     {
         return $this->connection->channel();
     }

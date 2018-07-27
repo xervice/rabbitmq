@@ -13,7 +13,11 @@ use Xervice\Console\Command\AbstractCommand;
  */
 class WorkerCommand extends AbstractCommand
 {
-    protected function configure()
+    /**
+     *
+     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
+     */
+    protected function configure(): void
     {
         $this->setName('queue:worker:run');
     }

@@ -53,11 +53,11 @@ class MessageProvider implements MessageProviderInterface
     }
 
     /**
-     * @param \DataProvider\RabbitMqMessageDataProvider $messageDataProvider
+     * @param \DataProvider\RabbitMqMessageDataProvider $messageDataDataProvider
      *
      * @return \PhpAmqpLib\Message\AMQPMessage
      */
-    private function createMessage(RabbitMqMessageDataProvider $messageDataDataProvider)
+    private function createMessage(RabbitMqMessageDataProvider $messageDataDataProvider): AMQPMessage
     {
         return new AMQPMessage(
             $messageDataDataProvider->getMessage(),

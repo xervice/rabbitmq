@@ -14,7 +14,7 @@ class RabbitMQDependencyProvider extends XerviceRabbitMQDependencyProvider
     /**
      * @return array
      */
-    protected function getListener()
+    protected function getListener(): array
     {
         return [
             new TestListener()
@@ -24,7 +24,7 @@ class RabbitMQDependencyProvider extends XerviceRabbitMQDependencyProvider
     /**
      * @return \Xervice\RabbitMQ\Queue\QueueInterface[]
      */
-    protected function getQueues()
+    protected function getQueues(): array
     {
         return [
             new TestQueue()
@@ -34,7 +34,7 @@ class RabbitMQDependencyProvider extends XerviceRabbitMQDependencyProvider
     /**
      * @return \Xervice\RabbitMQ\Exchange\ExchangeInterface[]
      */
-    protected function getExchanges()
+    protected function getExchanges(): array
     {
         return [
             new TestExchange()

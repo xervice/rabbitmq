@@ -31,7 +31,7 @@ class RabbitMQDependencyProvider extends AbstractProvider
     /**
      * @return \Xervice\RabbitMQ\Worker\Listener\ListenerInterface[]
      */
-    protected function getListener()
+    protected function getListener(): array
     {
         return [];
     }
@@ -39,7 +39,7 @@ class RabbitMQDependencyProvider extends AbstractProvider
     /**
      * @return \Xervice\RabbitMQ\Queue\QueueInterface[]
      */
-    protected function getQueues()
+    protected function getQueues(): array
     {
         return [];
     }
@@ -47,7 +47,7 @@ class RabbitMQDependencyProvider extends AbstractProvider
     /**
      * @return \Xervice\RabbitMQ\Exchange\ExchangeInterface[]
      */
-    protected function getExchanges()
+    protected function getExchanges(): array
     {
         return [];
     }

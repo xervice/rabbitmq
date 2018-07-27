@@ -31,7 +31,7 @@ class ExchangeBuilder implements ExchangeBuilderInterface
         $this->exchangeCollection = $exchangeCollection;
     }
 
-    public function buildExchange()
+    public function buildExchange(): void
     {
         foreach ($this->exchangeCollection as $exchange) {
             $exchange->declareExchange($this->exchangeProvider);

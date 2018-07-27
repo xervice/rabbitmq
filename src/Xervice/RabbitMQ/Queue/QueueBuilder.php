@@ -32,7 +32,7 @@ class QueueBuilder implements QueueBuilderInterface
         $this->queueCollection = $queueCollection;
     }
 
-    public function buildQueues()
+    public function buildQueues(): void
     {
         foreach ($this->queueCollection as $queue) {
             $queue->declareQueue($this->queueProvider);

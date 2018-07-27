@@ -15,10 +15,8 @@ class RabbitMQClient extends AbstractClient
 {
     /**
      * @param \DataProvider\RabbitMqMessageDataProvider $messageDataProvider
-     *
-     * @throws \Xervice\Config\Exception\ConfigNotFound
      */
-    public function sendMessage(RabbitMqMessageDataProvider $messageDataProvider)
+    public function sendMessage(RabbitMqMessageDataProvider $messageDataProvider): void
     {
         $this->getFactory()->getMessageProvider()->sendMessage($messageDataProvider);
     }
