@@ -99,6 +99,7 @@ class Consumer implements ConsumerInterface
         $rabbitMessage->setMessage($message->getBody());
         $rabbitMessage->setProperties($message->get_properties());
         $rabbitMessage->setDeliveryInfo($message->delivery_info);
+        $rabbitMessage->setDeliveryTag($message->delivery_info['delivery_tag'] ?? 0);
 
         $queue = new RabbitMqQueueDataProvider();
         $queue->setName($message->delivery_info['exchange']);

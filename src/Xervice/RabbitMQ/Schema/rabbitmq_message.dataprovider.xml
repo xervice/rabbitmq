@@ -11,6 +11,7 @@
         <DataElement name="Message" type="string"/>
         <DataElement name="Properties" default="[]" type="array"/>
         <DataElement name="DeliveryInfo" default="[]" type="array"/>
+        <DataElement name="DeliveryTag" default="0" type="int"/>
         <DataElement name="RoutingKey" default="''" type="string"/>
         <DataElement name="Mandatory" default="false" type="bool"/>
         <DataElement name="Immediate" default="false" type="bool"/>

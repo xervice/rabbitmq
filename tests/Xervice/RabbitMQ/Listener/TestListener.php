@@ -16,7 +16,17 @@ class TestListener extends AbstractListener
     ): void {
         foreach ($collectionDataProvider->getMessages() as $message) {
             echo $message->getMessage();
+
+            $this->sendAck($channel, $message);
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function getChunkSize(): int
+    {
+        return 500;
     }
 
     /**

@@ -2,9 +2,8 @@
 namespace XerviceTest\RabbitMQ;
 
 use DataProvider\RabbitMqExchangeDataProvider;
+use DataProvider\RabbitMqMessageCollectionDataProvider;
 use DataProvider\RabbitMqMessageDataProvider;
-use DataProvider\RabbitMqQueueDataProvider;
-use Xervice\Core\Factory\FactoryInterface;
 use Xervice\Core\Locator\Dynamic\DynamicLocator;
 use Xervice\Core\Locator\Locator;
 use Xervice\DataProvider\DataProviderFacade;
@@ -75,31 +74,28 @@ class IntegrationTest extends \Codeception\Test\Unit
         $exchange = new RabbitMqExchangeDataProvider();
         $exchange->setName('UnitTest');
 
-        for ($i=1; $i<=1000; $i++) {
+
+        $messageCollection = new RabbitMqMessageCollectionDataProvider();
+        for ($i=1; $i<=450; $i++) {
             $testMessage = new RabbitMqMessageDataProvider();
             $testMessage
                 ->setExchange($exchange)
                 ->setMessage('TestMessage');
-            $this->getFacade()->sendMessage($testMessage);
+
+            $messageCollection->addMessage($testMessage);
         }
 
-        $expected = '';
-        for ($i=1; $i<=100; $i++) {
-            $expected .= 'TestMessage';
-        }
+        $this->getFacade()->sendMessages($messageCollection);
 
-        for ($i=0; $i<10; $i++) {
-            ob_start();
-            $this->getFacade()->runWorker();
-            $response = ob_get_contents();
-            ob_end_clean();
+        ob_start();
+        $this->getFacade()->runWorker();
+        $response = ob_get_contents();
+        ob_end_clean();
 
-
-            $this->assertEquals(
-                $expected,
-                $response
-            );
-        }
+        $this->assertEquals(
+            $this->getExpectedTestMessage(450),
+            $response
+        );
 
         ob_start();
         $this->getFacade()->runWorker();
@@ -119,5 +115,18 @@ class IntegrationTest extends \Codeception\Test\Unit
     private function getDataProviderFacade(): DataProviderFacade
     {
         return Locator::getInstance()->dataProvider()->facade();
+    }
+
+    /**
+     * @return string
+     */
+    private function getExpectedTestMessage(int $count): string
+    {
+        $expected = '';
+        for ($i = 1; $i <= $count; $i++) {
+            $expected .= 'TestMessage';
+        }
+
+        return $expected;
     }
 }

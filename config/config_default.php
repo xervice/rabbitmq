@@ -26,4 +26,13 @@ if (class_exists(RabbitMQConfig::class)) {
     $config[RabbitMQConfig::CONNECTION_CONTEXT] = null;
     $config[RabbitMQConfig::CONNECTION_KEEPALIVE] = false;
     $config[RabbitMQConfig::CONNECTION_HEARTBEAT] = 0;
+
+
+    $config[RabbitMQConfig::CONSUMER_TAG] = '';
+    $config[RabbitMQConfig::CONSUMER_NOLOCAL] = false;
+    $config[RabbitMQConfig::CONSUMER_NOACK] = false;
+    $config[RabbitMQConfig::CONSUMER_EXCLUSIVE] = false;
+    $config[RabbitMQConfig::CONSUMER_NOWAIT] = false;
+    $config[RabbitMQConfig::CONSUMER_TICKET] = null;
+    $config[RabbitMQConfig::CONSUMER_ARGUMENTS] = [];
 }
