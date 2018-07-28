@@ -8,7 +8,7 @@
 
     <DataProvider name="RabbitMqMessage">
         <DataElement name="Exchange" type="RabbitMqExchange"/>
-        <DataElement name="Message" type="string"/>
+        <DataElement name="Message" type="DataProviderInterface"/>
         <DataElement name="Properties" default="[]" type="array"/>
         <DataElement name="DeliveryInfo" default="[]" type="array"/>
         <DataElement name="DeliveryTag" default="0" type="int"/>
@@ -20,5 +20,9 @@
 
     <DataProvider name="RabbitMqMessageCollection">
         <DataElement name="Messages" singleton="Message" type="RabbitMqMessage[]"/>
+    </DataProvider>
+
+    <DataProvider name="SimpleMessage">
+        <DataElement name="Message" type="string"/>
     </DataProvider>
 </DataProviders>

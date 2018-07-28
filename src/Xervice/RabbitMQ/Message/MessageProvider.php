@@ -60,7 +60,9 @@ class MessageProvider implements MessageProviderInterface
     private function createMessage(RabbitMqMessageDataProvider $messageDataDataProvider): AMQPMessage
     {
         return new AMQPMessage(
-            $messageDataDataProvider->getMessage(),
+            json_encode(
+                $messageDataDataProvider->toArray()
+            ),
             $messageDataDataProvider->getProperties()
         );
     }

@@ -4,8 +4,6 @@
 namespace Xervice\RabbitMQ;
 
 
-use DataProvider\RabbitMqMessageCollectionDataProvider;
-use DataProvider\RabbitMqMessageDataProvider;
 use Xervice\Core\Facade\AbstractFacade;
 
 /**
@@ -22,22 +20,6 @@ class RabbitMQFacade extends AbstractFacade
     public function init(): void
     {
         $this->getFactory()->createBootstrapper()->boot();
-    }
-
-    /**
-     * @param \DataProvider\RabbitMqMessageDataProvider $messageDataProvider
-     */
-    public function sendMessage(RabbitMqMessageDataProvider $messageDataProvider): void
-    {
-        $this->getFactory()->getMessageProvider()->sendMessage($messageDataProvider);
-    }
-
-    /**
-     * @param \DataProvider\RabbitMqMessageCollectionDataProvider $messageCollectionDataProvider
-     */
-    public function sendMessages(RabbitMqMessageCollectionDataProvider $messageCollectionDataProvider): void
-    {
-        $this->getFactory()->getMessageProvider()->sendBulk($messageCollectionDataProvider);
     }
 
     /**

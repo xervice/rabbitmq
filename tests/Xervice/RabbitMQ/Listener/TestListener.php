@@ -15,7 +15,7 @@ class TestListener extends AbstractListener
         AMQPChannel $channel
     ): void {
         foreach ($collectionDataProvider->getMessages() as $message) {
-            echo $message->getMessage();
+            echo $message->getMessage()->getMessage();
 
             $this->sendAck($channel, $message);
         }

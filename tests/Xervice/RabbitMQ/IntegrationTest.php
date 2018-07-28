@@ -4,6 +4,7 @@ namespace XerviceTest\RabbitMQ;
 use DataProvider\RabbitMqExchangeDataProvider;
 use DataProvider\RabbitMqMessageCollectionDataProvider;
 use DataProvider\RabbitMqMessageDataProvider;
+use DataProvider\SimpleMessageDataProvider;
 use Xervice\Core\Locator\Dynamic\DynamicLocator;
 use Xervice\Core\Locator\Locator;
 use Xervice\DataProvider\DataProviderFacade;
@@ -12,6 +13,7 @@ require_once __DIR__ . '/TestInjector/RabbitMQDependencyProvider.php';
 
 /**
  * @method \Xervice\RabbitMQ\RabbitMQFacade getFacade()
+ * @method \Xervice\RabbitMQ\RabbitMQClient getClient()
  * @method \Xervice\RabbitMQ\RabbitMQFactory getFactory()
  */
 class IntegrationTest extends \Codeception\Test\Unit
@@ -46,12 +48,15 @@ class IntegrationTest extends \Codeception\Test\Unit
         $exchange = new RabbitMqExchangeDataProvider();
         $exchange->setName('UnitTest');
 
+        $simpleMessage = new SimpleMessageDataProvider();
+        $simpleMessage->setMessage('TestMessage');
+
         $testMessage = new RabbitMqMessageDataProvider();
         $testMessage
             ->setExchange($exchange)
-            ->setMessage('TestMessage');
+            ->setMessage($simpleMessage);
 
-        $this->getFacade()->sendMessage($testMessage);
+        $this->getClient()->sendMessage($testMessage);
 
         ob_start();
         $this->getFacade()->runWorker();
@@ -74,18 +79,20 @@ class IntegrationTest extends \Codeception\Test\Unit
         $exchange = new RabbitMqExchangeDataProvider();
         $exchange->setName('UnitTest');
 
+        $simpleMessage = new SimpleMessageDataProvider();
+        $simpleMessage->setMessage('TestMessage');
 
         $messageCollection = new RabbitMqMessageCollectionDataProvider();
         for ($i=1; $i<=450; $i++) {
             $testMessage = new RabbitMqMessageDataProvider();
             $testMessage
                 ->setExchange($exchange)
-                ->setMessage('TestMessage');
+                ->setMessage($simpleMessage);
 
             $messageCollection->addMessage($testMessage);
         }
 
-        $this->getFacade()->sendMessages($messageCollection);
+        $this->getClient()->sendMessages($messageCollection);
 
         ob_start();
         $this->getFacade()->runWorker();

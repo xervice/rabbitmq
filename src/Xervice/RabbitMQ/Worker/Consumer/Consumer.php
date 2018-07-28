@@ -96,10 +96,17 @@ class Consumer implements ConsumerInterface
     public function collectMessages(AMQPMessage $message): void
     {
         $rabbitMessage = new RabbitMqMessageDataProvider();
-        $rabbitMessage->setMessage($message->getBody());
-        $rabbitMessage->setProperties($message->get_properties());
-        $rabbitMessage->setDeliveryInfo($message->delivery_info);
-        $rabbitMessage->setDeliveryTag($message->delivery_info['delivery_tag'] ?? 0);
+        $rabbitMessage
+            ->fromArray(
+                json_decode(
+                    $message->getBody(),
+                    true
+                )
+            );
+        $rabbitMessage
+            ->setProperties($message->get_properties())
+            ->setDeliveryInfo($message->delivery_info)
+            ->setDeliveryTag($message->delivery_info['delivery_tag'] ?? 0);
 
         $queue = new RabbitMqQueueDataProvider();
         $queue->setName($message->delivery_info['exchange']);
