@@ -18,13 +18,13 @@ First you have to define exchanges. To provide your exchanges to RabbitMQ you cr
 ```php
 <?php
 
-namespace App\MyModule\Busines\Queue;
+namespace App\MyModule\Business\Model\Exchange;
 
 use DataProvider\RabbitMqExchangeDataProvider;
-use Xervice\RabbitMQ\Core\ExchangeProviderInterface;
-use Xervice\RabbitMQ\Exchange\ExchangeInterface;
+use Xervice\RabbitMQ\Business\Dependency\Exchange\ExchangeInterface;
+use Xervice\RabbitMQ\Business\Model\Core\ExchangeProviderInterface;
 
-class MyExchangeProvider implements ExchangeInterface
+class MyExchange implements ExchangeInterface
 {
     /**
      * @param \Xervice\RabbitMQ\Core\ExchangeProviderInterface $exchangeProvider
@@ -48,13 +48,13 @@ Defining a queue and binding a queue is possible with an QueueProvider.
 ```php
 <?php
 
-namespace App\MyModule\Busines\Queue;
+namespace App\MyModule\Business\Model\Queue;
 
 use DataProvider\RabbitMqExchangeDataProvider;
 use DataProvider\RabbitMqQueueBindDataProvider;
 use DataProvider\RabbitMqQueueDataProvider;
-use Xervice\RabbitMQ\Core\QueueProviderInterface;
-use Xervice\RabbitMQ\Queue\QueueInterface;
+use Xervice\RabbitMQ\Business\Dependency\Queue\QueueInterface;
+use Xervice\RabbitMQ\Business\Model\Core\QueueProviderInterface;
 
 class MyQueue implements QueueInterface
 {
@@ -87,11 +87,11 @@ If you start a worker, it will loop all defined Listener and provide queue messa
 ```php
 <?php
 
-namespace App\MyModule\Business\Queue;
+namespace App\MyModule\Business\Model\Listener;
 
 use DataProvider\RabbitMqMessageCollectionDataProvider;
 use PhpAmqpLib\Channel\AMQPChannel;
-use Xervice\RabbitMQ\Worker\Listener\AbstractListener;
+use Xervice\RabbitMQ\Business\Model\Worker\Listener\AbstractListener;
 
 class MyListener extends AbstractListener
 {
@@ -127,19 +127,12 @@ class MyListener extends AbstractListener
 
 The ChunkSize define, how many messages the worker want to get from RabbitMQ in one Worker instance.
 
-
-
-
-
-
 To define the exchange, queue and listener, you can register them in the RabbitMQDependencyProvider:
 
 ```php
 <?php
 
-
 namespace App\RabbitMQ;
-
 
 use Xervice\RabbitMQ\RabbitMQDependencyProvider as XerviceRabbitMQDependencyProvider;
 use XerviceTest\RabbitMQ\Exchange\TestExchange;
@@ -149,7 +142,7 @@ use XerviceTest\RabbitMQ\Queue\TestQueue;
 class RabbitMQDependencyProvider extends XerviceRabbitMQDependencyProvider
 {
     /**
-     * @return array
+     * @return \Xervice\RabbitMQ\Business\Dependency\Worker\Listener\ListenerInterface[]
      */
     protected function getListener(): array
     {
@@ -159,29 +152,29 @@ class RabbitMQDependencyProvider extends XerviceRabbitMQDependencyProvider
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Queue\QueueInterface[]
+     * @return \Xervice\RabbitMQ\Business\Dependency\Queue\QueueInterface[]
      */
     protected function getQueues(): array
     {
         return [
-            new TestQueue()
+            new MyQueue()
         ];
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Exchange\ExchangeInterface[]
+     * @return \Xervice\RabbitMQ\Business\Dependency\Exchange\ExchangeInterface[]
      */
     protected function getExchanges(): array
     {
         return [
-            new TestExchange()
+            new MyExchange()
         ];
     }
 }
 ```
 
 
-___To use RabbitMQ in your application, you can add the \Xervice\RabbitMQ\Kernel\RabbitMqService to your kernel stack.___
+___To use RabbitMQ in your application, you can add the \Xervice\RabbitMQ\Communication\Plugin\RabbitMqService plugin to your kernel stack.___
 
 
 Usage
@@ -205,7 +198,7 @@ $testMessage
     ->setExchange($exchange)
     ->setMessage($simpleMessage);
 
-$rabbitMQClient->sendMessage($message);
+$rabbitMQFacade->sendMessage($message);
 ```
 
 
