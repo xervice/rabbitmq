@@ -5,13 +5,13 @@ namespace XerviceTest\RabbitMQ\Exchange;
 
 
 use DataProvider\RabbitMqExchangeDataProvider;
-use Xervice\RabbitMQ\Core\ExchangeProviderInterface;
-use Xervice\RabbitMQ\Exchange\ExchangeInterface;
+use Xervice\RabbitMQ\Business\Dependency\Exchange\ExchangeInterface;
+use Xervice\RabbitMQ\Business\Model\Core\ExchangeProviderInterface;
 
 class TestExchange implements ExchangeInterface
 {
     /**
-     * @param \Xervice\RabbitMQ\Core\ExchangeProviderInterface $exchangeProvider
+     * @param \Xervice\RabbitMQ\Business\Model\Core\ExchangeProviderInterface $exchangeProvider
      */
     public function declareExchange(ExchangeProviderInterface $exchangeProvider)
     {

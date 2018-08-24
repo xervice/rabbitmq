@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\RabbitMQ;
 
@@ -12,7 +12,7 @@ use XerviceTest\RabbitMQ\Queue\TestQueue;
 class RabbitMQDependencyProvider extends XerviceRabbitMQDependencyProvider
 {
     /**
-     * @return array
+     * @return \Xervice\RabbitMQ\Business\Dependency\Worker\Listener\ListenerInterface[]
      */
     protected function getListener(): array
     {
@@ -22,7 +22,7 @@ class RabbitMQDependencyProvider extends XerviceRabbitMQDependencyProvider
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Queue\QueueInterface[]
+     * @return \Xervice\RabbitMQ\Business\Dependency\Queue\QueueInterface[]
      */
     protected function getQueues(): array
     {
@@ -32,7 +32,7 @@ class RabbitMQDependencyProvider extends XerviceRabbitMQDependencyProvider
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Exchange\ExchangeInterface[]
+     * @return \Xervice\RabbitMQ\Business\Dependency\Exchange\ExchangeInterface[]
      */
     protected function getExchanges(): array
     {
@@ -40,5 +40,4 @@ class RabbitMQDependencyProvider extends XerviceRabbitMQDependencyProvider
             new TestExchange()
         ];
     }
-
 }

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace XerviceTest\RabbitMQ;
 
 use DataProvider\RabbitMqExchangeDataProvider;
@@ -7,24 +9,18 @@ use DataProvider\RabbitMqMessageDataProvider;
 use DataProvider\SimpleMessageDataProvider;
 use Xervice\Core\Business\Model\Locator\Dynamic\Business\DynamicBusinessLocator;
 use Xervice\Core\Business\Model\Locator\Locator;
-use Xervice\DataProvider\DataProviderFacade;
+use Xervice\DataProvider\Business\DataProviderFacade;
 
 require_once __DIR__ . '/TestInjector/RabbitMQDependencyProvider.php';
 
 /**
- * @method \Xervice\RabbitMQ\RabbitMQFacade getFacade()
- * @method \Xervice\RabbitMQ\RabbitMQClient getClient()
- * @method \Xervice\RabbitMQ\RabbitMQFactory getFactory()
+ * @method \Xervice\RabbitMQ\Business\RabbitMQFacade getFacade()
+ * @method \Xervice\RabbitMQ\Business\RabbitMQBusinessFactory getFactory()
  */
 class IntegrationTest extends \Codeception\Test\Unit
 {
     use DynamicBusinessLocator;
 
-    /**
-     * @var \XerviceTest\XerviceTester
-     */
-    protected $tester;
-    
     protected function _before()
     {
         $this->getDataProviderFacade()->generateDataProvider();
@@ -56,7 +52,7 @@ class IntegrationTest extends \Codeception\Test\Unit
             ->setExchange($exchange)
             ->setMessage($simpleMessage);
 
-        $this->getClient()->sendMessage($testMessage);
+        $this->getFacade()->sendMessage($testMessage);
 
         ob_start();
         $this->getFacade()->runWorker();
@@ -92,7 +88,7 @@ class IntegrationTest extends \Codeception\Test\Unit
             $messageCollection->addMessage($testMessage);
         }
 
-        $this->getClient()->sendMessages($messageCollection);
+        $this->getFacade()->sendMessages($messageCollection);
 
         ob_start();
         $this->getFacade()->runWorker();
@@ -117,7 +113,7 @@ class IntegrationTest extends \Codeception\Test\Unit
     }
 
     /**
-     * @return \Xervice\DataProvider\DataProviderFacade
+     * @return \Xervice\DataProvider\Business\DataProviderFacade
      */
     private function getDataProviderFacade(): DataProviderFacade
     {

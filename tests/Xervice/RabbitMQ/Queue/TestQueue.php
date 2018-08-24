@@ -7,8 +7,8 @@ namespace XerviceTest\RabbitMQ\Queue;
 use DataProvider\RabbitMqExchangeDataProvider;
 use DataProvider\RabbitMqQueueBindDataProvider;
 use DataProvider\RabbitMqQueueDataProvider;
-use Xervice\RabbitMQ\Core\QueueProviderInterface;
-use Xervice\RabbitMQ\Queue\QueueInterface;
+use Xervice\RabbitMQ\Business\Dependency\Queue\QueueInterface;
+use Xervice\RabbitMQ\Business\Model\Core\QueueProviderInterface;
 
 class TestQueue implements QueueInterface
 {

@@ -6,7 +6,7 @@ namespace XerviceTest\RabbitMQ\Listener;
 
 use DataProvider\RabbitMqMessageCollectionDataProvider;
 use PhpAmqpLib\Channel\AMQPChannel;
-use Xervice\RabbitMQ\Worker\Listener\AbstractListener;
+use Xervice\RabbitMQ\Business\Model\Worker\Listener\AbstractListener;
 
 class TestListener extends AbstractListener
 {
