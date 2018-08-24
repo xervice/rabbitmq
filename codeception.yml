@@ -10,4 +10,4 @@ namespace: XerviceTest
 coverage:
   enabled: true
   include:
-    - src/*
+    - src/Xervice/*
