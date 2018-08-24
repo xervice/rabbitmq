@@ -74,8 +74,7 @@ class Consumer implements ConsumerInterface
         );
 
         try {
-            $finished = false;
-            while (\count($this->channel->callbacks) && !$finished) {
+            while (\count($this->channel->callbacks)) {
                 $this->channel->wait(
                     null,
                     false,
@@ -83,7 +82,6 @@ class Consumer implements ConsumerInterface
                 );
             }
         } catch (\Exception $e) {
-            $finished = true;
         }
 
         $listener->handleMessage($this->messageCollection, $this->channel);

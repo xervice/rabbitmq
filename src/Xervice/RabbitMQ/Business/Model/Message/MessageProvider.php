@@ -5,7 +5,6 @@ namespace Xervice\RabbitMQ\Business\Model\Message;
 
 
 use DataProvider\RabbitMqMessageCollectionDataProvider;
-use DataProvider\RabbitMqMessageDataDataProvider;
 use DataProvider\RabbitMqMessageDataProvider;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
