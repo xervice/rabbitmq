@@ -12,7 +12,7 @@
         <DataElement name="NoAck" default="false" type="bool"/>
         <DataElement name="Exclusive" default="false" type="bool"/>
         <DataElement name="NoWait" default="false" type="bool"/>
-        <DataElement name="Ticket" type="string" allownull="true"/>
+        <DataElement name="Ticket" allownull="true" type="int"/>
         <DataElement name="Arguments" default="[]" type="array"/>
     </DataProvider>
 

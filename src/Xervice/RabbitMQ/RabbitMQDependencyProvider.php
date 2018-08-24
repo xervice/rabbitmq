@@ -4,32 +4,34 @@
 namespace Xervice\RabbitMQ;
 
 
-use Xervice\Core\Dependency\DependencyProviderInterface;
-use Xervice\Core\Dependency\Provider\AbstractProvider;
-use Xervice\RabbitMQ\Exchange\ExchangeCollection;
-use Xervice\RabbitMQ\Queue\QueueCollection;
-use Xervice\RabbitMQ\Worker\Listener\ListenerCollection;
+use Xervice\Core\Business\Model\Dependency\DependencyContainerInterface;
+use Xervice\Core\Business\Model\Dependency\Provider\AbstractDependencyProvider;
+use Xervice\RabbitMQ\Business\Model\Exchange\ExchangeCollection;
+use Xervice\RabbitMQ\Business\Model\Queue\QueueCollection;
+use Xervice\RabbitMQ\Business\Model\Worker\Listener\ListenerCollection;
 
-class RabbitMQDependencyProvider extends AbstractProvider
+class RabbitMQDependencyProvider extends AbstractDependencyProvider
 {
     public const RABBITMQ_EXCHANGES = 'rabbitmq.exchanges';
-
     public const RABBITMQ_QUEUES = 'rabbitmq.queues';
-
     public const RABBITMQ_LISTENER = 'rabbitmq.listener';
 
     /**
-     * @param \Xervice\Core\Dependency\DependencyProviderInterface $dependencyProvider
+     * @param \Xervice\Core\Business\Model\Dependency\DependencyContainerInterface $container
+     *
+     * @return \Xervice\Core\Business\Model\Dependency\DependencyContainerInterface
      */
-    public function handleDependencies(DependencyProviderInterface $dependencyProvider): void
+    public function handleDependencies(DependencyContainerInterface $container): DependencyContainerInterface
     {
-        $this->createExchangeCollection($dependencyProvider);
-        $this->createQueueCollection($dependencyProvider);
-        $this->createListenerCollection($dependencyProvider);
+        $container = $this->createExchangeCollection($container);
+        $container = $this->createQueueCollection($container);
+        $container = $this->createListenerCollection($container);
+
+        return $container;
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Worker\Listener\ListenerInterface[]
+     * @return \Xervice\RabbitMQ\Business\Dependency\Worker\Listener\ListenerInterface[]
      */
     protected function getListener(): array
     {
@@ -37,7 +39,7 @@ class RabbitMQDependencyProvider extends AbstractProvider
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Queue\QueueInterface[]
+     * @return \Xervice\RabbitMQ\Business\Dependency\Queue\QueueInterface[]
      */
     protected function getQueues(): array
     {
@@ -45,7 +47,7 @@ class RabbitMQDependencyProvider extends AbstractProvider
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Exchange\ExchangeInterface[]
+     * @return \Xervice\RabbitMQ\Business\Dependency\Exchange\ExchangeInterface[]
      */
     protected function getExchanges(): array
     {
@@ -53,39 +55,51 @@ class RabbitMQDependencyProvider extends AbstractProvider
     }
 
     /**
-     * @param \Xervice\Core\Dependency\DependencyProviderInterface $dependencyProvider
+     * @param \Xervice\Core\Business\Model\Dependency\DependencyContainerInterface $container
+     *
+     * @return \Xervice\Core\Business\Model\Dependency\DependencyContainerInterface
      */
-    private function createExchangeCollection(DependencyProviderInterface $dependencyProvider): void
+    private function createExchangeCollection(DependencyContainerInterface $container): DependencyContainerInterface
     {
-        $dependencyProvider[self::RABBITMQ_EXCHANGES] = function (DependencyProviderInterface $dependencyProvider) {
+        $container[self::RABBITMQ_EXCHANGES] = function (DependencyContainerInterface $container) {
             return new ExchangeCollection(
                 $this->getExchanges()
             );
         };
+
+        return $container;
     }
 
     /**
-     * @param \Xervice\Core\Dependency\DependencyProviderInterface $dependencyProvider
+     * @param \Xervice\Core\Business\Model\Dependency\DependencyContainerInterface $container
+     *
+     * @return \Xervice\Core\Business\Model\Dependency\DependencyContainerInterface
      */
-    private function createQueueCollection(DependencyProviderInterface $dependencyProvider): void
+    private function createQueueCollection(DependencyContainerInterface $container): DependencyContainerInterface
     {
-        $dependencyProvider[self::RABBITMQ_QUEUES] = function (DependencyProviderInterface $dependencyProvider) {
+        $container[self::RABBITMQ_QUEUES] = function (DependencyContainerInterface $container) {
             return new QueueCollection(
                 $this->getQueues()
             );
         };
+
+        return $container;
     }
 
     /**
-     * @param \Xervice\Core\Dependency\DependencyProviderInterface $dependencyProvider
+     * @param \Xervice\Core\Business\Model\Dependency\DependencyContainerInterface $container
+     *
+     * @return \Xervice\Core\Business\Model\Dependency\DependencyContainerInterface
      */
-    private function createListenerCollection(DependencyProviderInterface $dependencyProvider): void
+    private function createListenerCollection(DependencyContainerInterface $container): DependencyContainerInterface
     {
-        $dependencyProvider[self::RABBITMQ_LISTENER] = function (DependencyProviderInterface $dependencyProvider) {
+        $container[self::RABBITMQ_LISTENER] = function (DependencyContainerInterface $container) {
             return new ListenerCollection(
                 $this->getListener()
             );
         };
+
+        return $container;
     }
 
 }

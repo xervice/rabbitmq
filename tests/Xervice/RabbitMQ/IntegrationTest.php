@@ -5,8 +5,8 @@ use DataProvider\RabbitMqExchangeDataProvider;
 use DataProvider\RabbitMqMessageCollectionDataProvider;
 use DataProvider\RabbitMqMessageDataProvider;
 use DataProvider\SimpleMessageDataProvider;
-use Xervice\Core\Locator\Dynamic\DynamicLocator;
-use Xervice\Core\Locator\Locator;
+use Xervice\Core\Business\Model\Locator\Dynamic\Business\DynamicBusinessLocator;
+use Xervice\Core\Business\Model\Locator\Locator;
 use Xervice\DataProvider\DataProviderFacade;
 
 require_once __DIR__ . '/TestInjector/RabbitMQDependencyProvider.php';
@@ -18,7 +18,7 @@ require_once __DIR__ . '/TestInjector/RabbitMQDependencyProvider.php';
  */
 class IntegrationTest extends \Codeception\Test\Unit
 {
-    use DynamicLocator;
+    use DynamicBusinessLocator;
 
     /**
      * @var \XerviceTest\XerviceTester

@@ -8,7 +8,7 @@
 
     <DataProvider name="RabbitMqConnectionConfig">
         <DataElement name="Host" type="string"/>
-        <DataElement name="Port" type="int"/>
+        <DataElement name="Port" type="string"/>
         <DataElement name="Username" type="string"/>
         <DataElement name="Password" type="string"/>
         <DataElement name="VirtualHost" type="string"/>

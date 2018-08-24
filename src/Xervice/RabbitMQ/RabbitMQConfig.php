@@ -4,9 +4,10 @@
 namespace Xervice\RabbitMQ;
 
 
+
 use DataProvider\RabbitMqConnectionConfigDataProvider;
 use DataProvider\RabbitMqConsumerConfigDataProvider;
-use Xervice\Core\Config\AbstractConfig;
+use Xervice\Core\Business\Model\Config\AbstractConfig;
 
 class RabbitMQConfig extends AbstractConfig
 {
