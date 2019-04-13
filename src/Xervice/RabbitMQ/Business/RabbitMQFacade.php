@@ -5,6 +5,7 @@ namespace Xervice\RabbitMQ\Business;
 
 use DataProvider\RabbitMqMessageCollectionDataProvider;
 use DataProvider\RabbitMqMessageDataProvider;
+use Symfony\Component\Console\Output\OutputInterface;
 use Xervice\Core\Business\Model\Facade\AbstractFacade;
 
 
@@ -24,9 +25,9 @@ class RabbitMQFacade extends AbstractFacade
         $this->getFactory()->createBootstrapper()->boot();
     }
 
-    public function runWorker(): void
+    public function runWorker(OutputInterface $output = null): void
     {
-        $this->getFactory()->createWorker()->runWorker();
+        $this->getFactory()->createWorker()->runWorker($output);
     }
 
     public function close(): void

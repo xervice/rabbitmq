@@ -4,6 +4,7 @@
 namespace Xervice\RabbitMQ\Business\Model\Worker;
 
 
+use Symfony\Component\Console\Output\OutputInterface;
 use Xervice\RabbitMQ\Business\Model\Worker\Consumer\ConsumerInterface;
 use Xervice\RabbitMQ\Business\Model\Worker\Listener\ListenerCollection;
 
@@ -34,11 +35,14 @@ class Worker implements WorkerInterface
     }
 
     /**
-     * @throws \Xervice\RabbitMQ\Business\Exception\ListenerException
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    public function runWorker(): void
+    public function runWorker(OutputInterface $output = null): void
     {
         foreach ($this->listenerCollection as $listener) {
+            if ($output !== null && $output->isDebug()) {
+                $output->writeln('Run listener for queue <info>' . $listener->getQueueName() . '</info>');
+            }
             $this->consumer->consumeQueries($listener);
         }
     }
