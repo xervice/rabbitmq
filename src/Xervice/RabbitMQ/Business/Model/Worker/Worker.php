@@ -5,33 +5,29 @@ namespace Xervice\RabbitMQ\Business\Model\Worker;
 
 
 use Symfony\Component\Console\Output\OutputInterface;
-use Xervice\RabbitMQ\Business\Model\Worker\Consumer\ConsumerInterface;
+use Xervice\Core\Business\Model\Locator\Dynamic\Business\DynamicBusinessLocator;
 use Xervice\RabbitMQ\Business\Model\Worker\Listener\ListenerCollection;
 
+/**
+ * @method \Xervice\RabbitMQ\Business\RabbitMQFacade getFacade()
+ */
 class Worker implements WorkerInterface
 {
+    use DynamicBusinessLocator;
+
     /**
      * @var \Xervice\RabbitMQ\Business\Model\Worker\Listener\ListenerCollection
      */
     private $listenerCollection;
 
     /**
-     * @var \Xervice\RabbitMQ\Business\Model\Worker\Consumer\ConsumerInterface
-     */
-    private $consumer;
-
-    /**
      * Worker constructor.
      *
      * @param \Xervice\RabbitMQ\Business\Model\Worker\Listener\ListenerCollection $listenerCollection
-     * @param \Xervice\RabbitMQ\Business\Model\Worker\Consumer\ConsumerInterface $consumer
      */
-    public function __construct(
-        ListenerCollection $listenerCollection,
-        ConsumerInterface $consumer
-    ) {
+    public function __construct(ListenerCollection $listenerCollection)
+    {
         $this->listenerCollection = $listenerCollection;
-        $this->consumer = $consumer;
     }
 
     /**
@@ -43,7 +39,8 @@ class Worker implements WorkerInterface
             if ($output !== null && $output->isDebug()) {
                 $output->writeln('Run listener for queue <info>' . $listener->getQueueName() . '</info>');
             }
-            $this->consumer->consumeQueries($listener);
+
+            $this->getFacade()->consumeQueries($listener);
         }
     }
 }

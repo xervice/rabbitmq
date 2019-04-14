@@ -30,6 +30,11 @@ class Consumer implements ConsumerInterface
     private $messageCollection;
 
     /**
+     * @var \Xervice\RabbitMQ\Business\Dependency\Worker\Listener\ListenerInterface
+     */
+    private $listener;
+
+    /**
      * Consumer constructor.
      *
      * @param \PhpAmqpLib\Channel\AMQPChannel $channel
@@ -37,29 +42,29 @@ class Consumer implements ConsumerInterface
      */
     public function __construct(
         AMQPChannel $channel,
-        RabbitMqConsumerConfigDataProvider $config
+        RabbitMqConsumerConfigDataProvider $config,
+        ListenerInterface $listener
     ) {
         $this->channel = $channel;
         $this->config = $config;
+        $this->listener = $listener;
 
         $this->messageCollection = new RabbitMqMessageCollectionDataProvider();
     }
 
     /**
-     * @param \Xervice\RabbitMQ\Business\Dependency\Worker\Listener\ListenerInterface $listener
-     *
      * @return void
      */
-    public function consumeQueries(ListenerInterface $listener): void
+    public function consumeQueries(): void
     {
         $this->channel->basic_qos(
             0,
-            $listener->getChunkSize(),
+            $this->listener->getChunkSize(),
             false
         );
 
         $this->channel->basic_consume(
-            $listener->getQueueName(),
+            $this->listener->getQueueName(),
             $this->config->getTag(),
             $this->config->getNoLocal(),
             $this->config->getNoAck(),
@@ -84,7 +89,7 @@ class Consumer implements ConsumerInterface
         } catch (\Exception $e) {
         }
 
-        $listener->handleMessage($this->messageCollection, $this->channel);
+        $this->listener->handleMessage($this->messageCollection, $this->channel);
     }
 
     /**

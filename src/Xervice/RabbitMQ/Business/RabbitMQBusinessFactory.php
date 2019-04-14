@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Xervice\RabbitMQ\Business;
 
 use Xervice\Core\Business\Model\Factory\AbstractBusinessFactory;
+use Xervice\RabbitMQ\Business\Dependency\Worker\Listener\ListenerInterface;
 use Xervice\RabbitMQ\Business\Model\Core\Bootstrapper;
 use Xervice\RabbitMQ\Business\Model\Core\BootstrapperInterface;
 use Xervice\RabbitMQ\Business\Model\Core\ConnectionProvider;
@@ -59,19 +60,21 @@ class RabbitMQBusinessFactory extends AbstractBusinessFactory
     public function createWorker(): WorkerInterface
     {
         return new Worker(
-            $this->getListenerCollection(),
-            $this->createConsumer()
+            $this->getListenerCollection()
         );
     }
 
     /**
+     * @param \Xervice\RabbitMQ\Business\Dependency\Worker\Listener\ListenerInterface $listener
+     *
      * @return \Xervice\RabbitMQ\Business\Model\Worker\Consumer\ConsumerInterface
      */
-    public function createConsumer(): ConsumerInterface
+    public function createConsumer(ListenerInterface $listener): ConsumerInterface
     {
         return new Consumer(
             $this->getConnectionProvider()->getChannel(),
-            $this->getConfig()->getConsumerConfig()
+            $this->getConfig()->getConsumerConfig(),
+            $listener
         );
     }
 

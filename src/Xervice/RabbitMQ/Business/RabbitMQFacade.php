@@ -7,6 +7,7 @@ use DataProvider\RabbitMqMessageCollectionDataProvider;
 use DataProvider\RabbitMqMessageDataProvider;
 use Symfony\Component\Console\Output\OutputInterface;
 use Xervice\Core\Business\Model\Facade\AbstractFacade;
+use Xervice\RabbitMQ\Business\Dependency\Worker\Listener\ListenerInterface;
 
 
 /**
@@ -26,6 +27,16 @@ class RabbitMQFacade extends AbstractFacade implements RabbitMQFacadeInterface
             ->getFactory()
             ->createBootstrapper()
             ->boot();
+    }
+
+    /**
+     * @param \Xervice\RabbitMQ\Business\Dependency\Worker\Listener\ListenerInterface $listener
+     */
+    public function consumeQueries(ListenerInterface $listener): void
+    {
+        $this->getFactory()
+             ->createConsumer($listener)
+             ->consumeQueries();
     }
 
     public function runWorker(OutputInterface $output = null): void

@@ -8,9 +8,7 @@ use Xervice\RabbitMQ\Business\Dependency\Worker\Listener\ListenerInterface;
 interface ConsumerInterface
 {
     /**
-     * @param \Xervice\RabbitMQ\Business\Dependency\Worker\Listener\ListenerInterface $listener
-     *
      * @return void
      */
-    public function consumeQueries(ListenerInterface $listener): void;
+    public function consumeQueries(): void;
 }
