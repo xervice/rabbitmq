@@ -13,7 +13,7 @@ use Xervice\Core\Business\Model\Facade\AbstractFacade;
  * @method \Xervice\RabbitMQ\Business\RabbitMQBusinessFactory getFactory()
  * @method \Xervice\RabbitMQ\RabbitMQConfig getConfig()
  */
-class RabbitMQFacade extends AbstractFacade
+class RabbitMQFacade extends AbstractFacade implements RabbitMQFacadeInterface
 {
     /**
      * Initiate the exchanges and queues in RabbitMQ
@@ -22,17 +22,36 @@ class RabbitMQFacade extends AbstractFacade
      */
     public function init(): void
     {
-        $this->getFactory()->createBootstrapper()->boot();
+        $this
+            ->getFactory()
+            ->createBootstrapper()
+            ->boot();
     }
 
     public function runWorker(OutputInterface $output = null): void
     {
-        $this->getFactory()->createWorker()->runWorker($output);
+        $this
+            ->getFactory()
+            ->createWorker()
+            ->runWorker($output);
+    }
+
+    public function reconnect(): void
+    {
+        $this
+            ->getFactory()
+            ->getConnectionProvider()
+            ->getConnection()
+            ->reconnect();
     }
 
     public function close(): void
     {
-        $this->getFactory()->getConnectionProvider()->getConnection()->close();
+        $this
+            ->getFactory()
+            ->getConnectionProvider()
+            ->getConnection()
+            ->close();
     }
 
     /**
@@ -40,7 +59,10 @@ class RabbitMQFacade extends AbstractFacade
      */
     public function sendMessage(RabbitMqMessageDataProvider $messageDataProvider): void
     {
-        $this->getFactory()->getMessageProvider()->sendMessage($messageDataProvider);
+        $this
+            ->getFactory()
+            ->getMessageProvider()
+            ->sendMessage($messageDataProvider);
     }
 
     /**
@@ -48,6 +70,9 @@ class RabbitMQFacade extends AbstractFacade
      */
     public function sendMessages(RabbitMqMessageCollectionDataProvider $messageCollectionDataProvider): void
     {
-        $this->getFactory()->getMessageProvider()->sendBulk($messageCollectionDataProvider);
+        $this
+            ->getFactory()
+            ->getMessageProvider()
+            ->sendBulk($messageCollectionDataProvider);
     }
 }

@@ -41,6 +41,8 @@ class IntegrationTest extends \Codeception\Test\Unit
      */
     public function testRabbitMqWorker()
     {
+        $this->getFacade()->reconnect();
+
         $exchange = new RabbitMqExchangeDataProvider();
         $exchange->setName('UnitTest');
 
