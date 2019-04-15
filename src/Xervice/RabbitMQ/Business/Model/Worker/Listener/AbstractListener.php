@@ -25,17 +25,26 @@ abstract class AbstractListener extends AbstractBusinessPlugin implements Listen
      * @param \PhpAmqpLib\Channel\AMQPChannel $channel
      * @param \DataProvider\RabbitMqMessageDataProvider $messageDataProvider
      */
-    public function sendAck(AMQPChannel $channel, RabbitMqMessageDataProvider $messageDataProvider): void
+    public function sendAck(
+        AMQPChannel $channel,
+        RabbitMqMessageDataProvider $messageDataProvider,
+        bool $multiple = false
+    ): void
     {
-        $channel->basic_ack($messageDataProvider->getDeliveryTag());
+        $channel->basic_ack($messageDataProvider->getDeliveryTag(), $multiple);
     }
 
     /**
      * @param \PhpAmqpLib\Channel\AMQPChannel $channel
      * @param \DataProvider\RabbitMqMessageDataProvider $messageDataProvider
      */
-    public function sendNack(AMQPChannel $channel, RabbitMqMessageDataProvider $messageDataProvider): void
+    public function sendNack(
+        AMQPChannel $channel,
+        RabbitMqMessageDataProvider $messageDataProvider,
+        bool $multiple = false,
+        bool $requeue = true
+    ): void
     {
-        $channel->basic_nack($messageDataProvider->getDeliveryTag());
+        $channel->basic_nack($messageDataProvider->getDeliveryTag(), $multiple, $requeue);
     }
 }
