@@ -51,7 +51,7 @@ class WorkerCommand extends AbstractCommand
             $timeEnd = time();
             $timeLeft = $loopTime - ($timeEnd - $time);
 
-            if ($output->isDebug()) {
+            if ($output->isDebug() && !$loop) {
                 $output->writeln('<comment>Time left: ' . $timeLeft . ' seconds!</comment>');
             }
 
@@ -68,6 +68,5 @@ class WorkerCommand extends AbstractCommand
     protected function runQueueWorker(OutputInterface $output): void
     {
         $this->getFacade()->runWorker($output);
-        $this->getFacade()->reconnect();
     }
 }
