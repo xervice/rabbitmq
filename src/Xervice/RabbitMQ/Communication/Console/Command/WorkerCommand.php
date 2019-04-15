@@ -68,5 +68,6 @@ class WorkerCommand extends AbstractCommand
     protected function runQueueWorker(OutputInterface $output): void
     {
         $this->getFacade()->runWorker($output);
+        $this->getFacade()->reconnect();
     }
 }
