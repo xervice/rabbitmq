@@ -13,11 +13,12 @@
     "phpstan/phpstan": "*"
   },
   "require": {
-    "php": ">=7.1.0",
+    "php": ">=7.3.0",
     "xervice/core": "^4.0.0",
     "xervice/kernel": "^2.0.0",
-    "xervice/data-provider": "^2.0.0",
-    "php-amqplib/php-amqplib": "^2.7.2"
+    "xervice/data-provider": "^2.4.0",
+    "php-amqplib/php-amqplib": "^2.7.2",
+    "symfony/process": "^4.3"
   },
   "autoload": {
     "psr-4": {

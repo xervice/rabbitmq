@@ -5,6 +5,7 @@ namespace Xervice\RabbitMQ\Business;
 
 use DataProvider\RabbitMqMessageCollectionDataProvider;
 use DataProvider\RabbitMqMessageDataProvider;
+use DataProvider\RabbitMqWorkerConfigDataProvider;
 use Symfony\Component\Console\Output\OutputInterface;
 use Xervice\Core\Business\Model\Facade\AbstractFacade;
 use Xervice\RabbitMQ\Business\Dependency\Worker\Listener\ListenerInterface;
@@ -39,12 +40,26 @@ class RabbitMQFacade extends AbstractFacade implements RabbitMQFacadeInterface
              ->consumeQueries();
     }
 
-    public function runWorker(OutputInterface $output = null): void
+    /**
+     * @param \DataProvider\RabbitMqWorkerConfigDataProvider $workerConfigDataProvider
+     */
+    public function runWorker(RabbitMqWorkerConfigDataProvider $workerConfigDataProvider): void
     {
         $this
             ->getFactory()
             ->createWorker()
-            ->runWorker($output);
+            ->runWorker($workerConfigDataProvider);
+    }
+
+    /**
+     * @param \DataProvider\RabbitMqWorkerConfigDataProvider $workerConfigDataProvider
+     */
+    public function runProcessManager(RabbitMqWorkerConfigDataProvider $workerConfigDataProvider): void
+    {
+        $this
+            ->getFactory()
+            ->createProcessManager()
+            ->runWorker($workerConfigDataProvider);
     }
 
     public function reconnect(): void
@@ -54,15 +69,6 @@ class RabbitMQFacade extends AbstractFacade implements RabbitMQFacadeInterface
             ->getConnectionProvider()
             ->getConnection()
             ->reconnect();
-    }
-
-    public function close(): void
-    {
-        $this
-            ->getFactory()
-            ->getConnectionProvider()
-            ->getConnection()
-            ->close();
     }
 
     /**

@@ -12,6 +12,7 @@ use Xervice\RabbitMQ\Business\Dependency\Worker\Listener\ListenerInterface;
 abstract class AbstractListener extends AbstractBusinessPlugin implements ListenerInterface
 {
     protected const DEFAULT_CHUNKSIZE = 100;
+    protected const DEFAULT_WORKER = 1;
 
     /**
      * @return int
@@ -19,6 +20,14 @@ abstract class AbstractListener extends AbstractBusinessPlugin implements Listen
     public function getChunkSize() : int
     {
         return self::DEFAULT_CHUNKSIZE;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWorker() : int
+    {
+        return static::DEFAULT_WORKER;
     }
 
     /**

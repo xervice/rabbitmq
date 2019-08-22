@@ -4,11 +4,15 @@
 namespace Xervice\RabbitMQ\Communication\Console\Command;
 
 
-use Symfony\Component\Console\Input\InputArgument;
+use DataProvider\EventDataProvider;
+use DataProvider\LogMessageDataProvider;
+use DataProvider\RabbitMqWorkerConfigDataProvider;
+use DataProvider\SimpleMessageDataProvider;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Xervice\Console\Business\Model\Command\AbstractCommand;
+use Xervice\Core\Business\Model\Locator\Locator;
 
 /**
  * @method \Xervice\RabbitMQ\Business\RabbitMQFacade getFacade()
@@ -20,10 +24,7 @@ class WorkerCommand extends AbstractCommand
      */
     protected function configure(): void
     {
-        $this
-            ->setName('queue:worker:run')
-            ->addOption('loop', 'l', InputOption::VALUE_NONE, 'Endless loop')
-            ->addOption('runtime', 't', InputOption::VALUE_REQUIRED, 'How long running this command',60);
+        $this->setName('queue:worker:run');
     }
 
     /**
@@ -34,40 +35,19 @@ class WorkerCommand extends AbstractCommand
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $loop = $input->getOption('loop');
-        $loopTime = $input->getOption('runtime');
+        $workerConfig = new RabbitMqWorkerConfigDataProvider();
+        $io = new SymfonyStyle($input, $output);
+        $workerConfig->setDisplay($io);
 
-        $time = time();
-        $timeEnd = $time;
-        $timeLeft = $loopTime - ($timeEnd - $time);
+        $message = new SimpleMessageDataProvider();
+        $message->setMessage('Test');
 
-        if ($output->isDebug()) {
-            $output->writeln('Start at ' . date('H:i:s', $time));
-        }
+        $event = new EventDataProvider();
+        $event
+            ->setName('Test')
+            ->setMessage($message);
+        Locator::getInstance()->event()->facade()->fireEvent($event);
 
-        while ($loop || $timeLeft > 0) {
-            $this->runQueueWorker($output);
-
-            $timeEnd = time();
-            $timeLeft = $loopTime - ($timeEnd - $time);
-
-            if ($output->isDebug() && !$loop) {
-                $output->writeln('<comment>Time left: ' . $timeLeft . ' seconds!</comment>');
-            }
-
-        }
-        if ($output->isDebug()) {
-            $output->writeln('');
-            $output->writeln('Finished at ' . date('H:i:s', $timeEnd));
-        }
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     */
-    protected function runQueueWorker(OutputInterface $output): void
-    {
-        $this->getFacade()->runWorker($output);
-        $this->getFacade()->reconnect();
+        $this->getFacade()->runProcessManager($workerConfig);
     }
 }

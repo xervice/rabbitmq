@@ -4,10 +4,12 @@
 namespace Xervice\RabbitMQ\Communication\Console\Command;
 
 
+use DataProvider\RabbitMqWorkerConfigDataProvider;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Xervice\Console\Business\Model\Command\AbstractCommand;
 use Xervice\Core\Business\Exception\XerviceException;
 
@@ -23,7 +25,7 @@ class ConsumeCommand extends AbstractCommand
     {
         $this
             ->setName('queue:listener:run')
-            ->addArgument('listener', InputArgument::REQUIRED, 'Listener classname');
+            ->addArgument('queue', InputArgument::REQUIRED, 'Queue to be consumed');
     }
 
     /**
@@ -35,13 +37,11 @@ class ConsumeCommand extends AbstractCommand
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $listenerClass = $input->getArgument('listener');
+        $workerConfig = new RabbitMqWorkerConfigDataProvider();
+        $io = new SymfonyStyle($input, $output);
+        $workerConfig->setDisplay($io);
+        $workerConfig->setConsumer($input->getArgument('queue'));
 
-        if (!class_exists($listenerClass)) {
-            throw new XerviceException('Listener not found ' . $listenerClass);
-        }
-
-        $listener = new $listenerClass();
-        $this->getFacade()->consumeQueries($listener);
+        $this->getFacade()->runWorker($workerConfig);
     }
 }

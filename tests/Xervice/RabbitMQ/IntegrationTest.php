@@ -6,7 +6,11 @@ namespace XerviceTest\RabbitMQ;
 use DataProvider\RabbitMqExchangeDataProvider;
 use DataProvider\RabbitMqMessageCollectionDataProvider;
 use DataProvider\RabbitMqMessageDataProvider;
+use DataProvider\RabbitMqWorkerConfigDataProvider;
 use DataProvider\SimpleMessageDataProvider;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Xervice\Core\Business\Model\Locator\Dynamic\Business\DynamicBusinessLocator;
 use Xervice\Core\Business\Model\Locator\Locator;
 use Xervice\DataProvider\Business\DataProviderFacade;
@@ -41,8 +45,6 @@ class IntegrationTest extends \Codeception\Test\Unit
      */
     public function testRabbitMqWorker()
     {
-        $this->getFacade()->reconnect();
-
         $exchange = new RabbitMqExchangeDataProvider();
         $exchange->setName('UnitTest');
 
@@ -57,7 +59,9 @@ class IntegrationTest extends \Codeception\Test\Unit
         $this->getFacade()->sendMessage($testMessage);
 
         ob_start();
-        $this->getFacade()->runWorker();
+        $config = new RabbitMqWorkerConfigDataProvider();
+        $config->setDisplay(new SymfonyStyle(new ArgvInput(), new ConsoleOutput()));
+        $this->getFacade()->runWorker($config);
         $response = ob_get_contents();
         ob_end_clean();
 
@@ -92,8 +96,11 @@ class IntegrationTest extends \Codeception\Test\Unit
 
         $this->getFacade()->sendMessages($messageCollection);
 
+        $config = new RabbitMqWorkerConfigDataProvider();
+        $config->setDisplay(new SymfonyStyle(new ArgvInput(), new ConsoleOutput()));
+
         ob_start();
-        $this->getFacade()->runWorker();
+        $this->getFacade()->runWorker($config);
         $response = ob_get_contents();
         ob_end_clean();
 
@@ -103,7 +110,7 @@ class IntegrationTest extends \Codeception\Test\Unit
         );
 
         ob_start();
-        $this->getFacade()->runWorker();
+        $this->getFacade()->runWorker($config);
         $response = ob_get_contents();
         ob_end_clean();
 

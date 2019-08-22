@@ -30,4 +30,9 @@ interface ListenerInterface
      * @return int
      */
     public function getChunkSize() : int;
+
+    /**
+     * @return int
+     */
+    public function getWorker() : int;
 }

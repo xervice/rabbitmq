@@ -18,6 +18,8 @@ use Xervice\RabbitMQ\Business\Model\Exchange\ExchangeBuilderInterface;
 use Xervice\RabbitMQ\Business\Model\Exchange\ExchangeCollection;
 use Xervice\RabbitMQ\Business\Model\Message\MessageProvider;
 use Xervice\RabbitMQ\Business\Model\Message\MessageProviderInterface;
+use Xervice\RabbitMQ\Business\Model\Process\ProcessManager;
+use Xervice\RabbitMQ\Business\Model\Process\ProcessManagerInterface;
 use Xervice\RabbitMQ\Business\Model\Queue\QueueBuilder;
 use Xervice\RabbitMQ\Business\Model\Queue\QueueBuilderInterface;
 use Xervice\RabbitMQ\Business\Model\Queue\QueueCollection;
@@ -31,7 +33,7 @@ use Xervice\RabbitMQ\RabbitMQDependencyProvider;
 /**
  * @method \Xervice\RabbitMQ\RabbitMQConfig getConfig()
  */
-class RabbitMQBusinessFactory extends AbstractBusinessFactory
+class RabbitMQBusinessFactory extends AbstractBusinessFactory implements RabbitMQBusinessFactoryInterface
 {
     /**
      * @var ConnectionProviderInterface
@@ -55,12 +57,12 @@ class RabbitMQBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Business\Model\Worker\WorkerInterface
+     * @return \Xervice\RabbitMQ\Business\Model\Core\ConnectionProviderInterface
      */
-    public function createWorker(): WorkerInterface
+    public function createConnectionProvider() : ConnectionProviderInterface
     {
-        return new Worker(
-            $this->getListenerCollection()
+        return new ConnectionProvider(
+            $this->getConfig()->getConnectionConfig()
         );
     }
 
@@ -75,17 +77,6 @@ class RabbitMQBusinessFactory extends AbstractBusinessFactory
             $this->getConnectionProvider()->getChannel(),
             $this->getConfig()->getConsumerConfig(),
             $listener
-        );
-    }
-
-    /**
-     * @return \Xervice\RabbitMQ\Business\Model\Queue\QueueBuilderInterface
-     */
-    public function createQueueBuilder(): QueueBuilderInterface
-    {
-        return new QueueBuilder(
-            $this->createQueueProvider(),
-            $this->getQueueCollection()
         );
     }
 
@@ -111,16 +102,6 @@ class RabbitMQBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Business\Model\Core\QueueProviderInterface
-     */
-    public function createQueueProvider() : QueueProviderInterface
-    {
-        return new QueueProvider(
-            $this->getConnectionProvider()->getChannel()
-        );
-    }
-
-    /**
      * @return \Xervice\RabbitMQ\Business\Model\Message\MessageProviderInterface
      */
     public function createMessageProvider() : MessageProviderInterface
@@ -131,25 +112,44 @@ class RabbitMQBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Business\Model\Core\ConnectionProviderInterface
+     * @return \Xervice\RabbitMQ\Business\Model\Process\ProcessManagerInterface
      */
-    public function createConnectionProvider() : ConnectionProviderInterface
+    public function createProcessManager(): ProcessManagerInterface
     {
-        return new ConnectionProvider(
-            $this->getConfig()->getConnectionConfig()
+        return new ProcessManager(
+            $this->getListenerCollection()
         );
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Business\Model\Message\MessageProviderInterface
+     * @return \Xervice\RabbitMQ\Business\Model\Queue\QueueBuilderInterface
      */
-    public function getMessageProvider() : MessageProviderInterface
+    public function createQueueBuilder(): QueueBuilderInterface
     {
-        if ($this->messageProvider === null) {
-            $this->messageProvider = $this->createMessageProvider();
-        }
+        return new QueueBuilder(
+            $this->createQueueProvider(),
+            $this->getQueueCollection()
+        );
+    }
 
-        return $this->messageProvider;
+    /**
+     * @return \Xervice\RabbitMQ\Business\Model\Core\QueueProviderInterface
+     */
+    public function createQueueProvider() : QueueProviderInterface
+    {
+        return new QueueProvider(
+            $this->getConnectionProvider()->getChannel()
+        );
+    }
+
+    /**
+     * @return \Xervice\RabbitMQ\Business\Model\Worker\WorkerInterface
+     */
+    public function createWorker(): WorkerInterface
+    {
+        return new Worker(
+            $this->getListenerCollection()
+        );
     }
 
     /**
@@ -173,19 +173,31 @@ class RabbitMQBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Xervice\RabbitMQ\Business\Model\Queue\QueueCollection
-     */
-    public function getQueueCollection(): QueueCollection
-    {
-        return $this->getDependency(RabbitMQDependencyProvider::RABBITMQ_QUEUES);
-    }
-
-    /**
      * @return \Xervice\RabbitMQ\Business\Model\Worker\Listener\ListenerCollection
      */
     public function getListenerCollection(): ListenerCollection
     {
         return $this->getDependency(RabbitMQDependencyProvider::RABBITMQ_LISTENER);
+    }
+
+    /**
+     * @return \Xervice\RabbitMQ\Business\Model\Message\MessageProviderInterface
+     */
+    public function getMessageProvider() : MessageProviderInterface
+    {
+        if ($this->messageProvider === null) {
+            $this->messageProvider = $this->createMessageProvider();
+        }
+
+        return $this->messageProvider;
+    }
+
+    /**
+     * @return \Xervice\RabbitMQ\Business\Model\Queue\QueueCollection
+     */
+    public function getQueueCollection(): QueueCollection
+    {
+        return $this->getDependency(RabbitMQDependencyProvider::RABBITMQ_QUEUES);
     }
 
 }

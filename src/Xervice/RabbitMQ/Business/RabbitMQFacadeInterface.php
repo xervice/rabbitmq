@@ -6,7 +6,9 @@ namespace Xervice\RabbitMQ\Business;
 
 use DataProvider\RabbitMqMessageCollectionDataProvider;
 use DataProvider\RabbitMqMessageDataProvider;
+use DataProvider\RabbitMqWorkerConfigDataProvider;
 use Symfony\Component\Console\Output\OutputInterface;
+use Xervice\RabbitMQ\Business\Dependency\Worker\Listener\ListenerInterface;
 
 /**
  * @method \Xervice\RabbitMQ\Business\RabbitMQBusinessFactory getFactory()
@@ -15,17 +17,28 @@ use Symfony\Component\Console\Output\OutputInterface;
 interface RabbitMQFacadeInterface
 {
     /**
+     * @param \Xervice\RabbitMQ\Business\Dependency\Worker\Listener\ListenerInterface $listener
+     */
+    public function consumeQueries(ListenerInterface $listener): void;
+
+    /**
      * Initiate the exchanges and queues in RabbitMQ
      *
      * @api
      */
     public function init(): void;
 
-    public function runWorker(OutputInterface $output = null): void;
+    /**
+     * @param \DataProvider\RabbitMqWorkerConfigDataProvider $workerConfigDataProvider
+     */
+    public function runProcessManager(RabbitMqWorkerConfigDataProvider $workerConfigDataProvider): void;
+
+    /**
+     * @param \DataProvider\RabbitMqWorkerConfigDataProvider $workerConfigDataProvider
+     */
+    public function runWorker(RabbitMqWorkerConfigDataProvider $workerConfigDataProvider): void;
 
     public function reconnect(): void;
-
-    public function close(): void;
 
     /**
      * @param \DataProvider\RabbitMqMessageDataProvider $messageDataProvider

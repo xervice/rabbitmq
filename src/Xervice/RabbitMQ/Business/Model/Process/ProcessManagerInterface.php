@@ -1,11 +1,11 @@
 <?php
+declare(strict_types=1);
 
-namespace Xervice\RabbitMQ\Business\Model\Worker;
+namespace Xervice\RabbitMQ\Business\Model\Process;
 
 use DataProvider\RabbitMqWorkerConfigDataProvider;
-use Symfony\Component\Console\Output\OutputInterface;
 
-interface WorkerInterface
+interface ProcessManagerInterface
 {
     /**
      * @param \DataProvider\RabbitMqWorkerConfigDataProvider $workerConfigDataProvider
